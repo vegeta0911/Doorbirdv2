@@ -1,0 +1,38 @@
+{
+    "plugins\/doorbirdv2\/desktop\/php\/doorbirdv2.php": {
+        "Ajouter un équipement": "Gerät hinzufügen",
+        "Rechercher": "Suchen",
+        "Mes Doorbird": "Mein Doorbird",
+        "Sauvegarder": "Speichern",
+        "Supprimer": "Löschen",
+        "Configuration avancée": "Erweiterte Konfiguration",
+        "Equipement": "Gerät",
+        "Commandes": "Befehle",
+        "Nom du doorbird": "Doorbird Name",
+        "Nom de l'équipement doorbird": "Doorbird Gerätename",
+        "Objet parent": "Elternobjekt",
+        "Aucun": "Keine",
+        "Catégorie": "Kategorie",
+        "Activer": "Aktivieren",
+        "Visible": "Sichtbar",
+        "Commentaire": "Kommentar",
+        "Adresse IP du doorbird": "Doorbird IP-Adresse",
+        "Utilisateur du doorbird": "Doorbird Benutzer",
+        "Mot de passe du doorbird": "Doorbird Passwort",
+        "Nom": "Name",
+        "Type": "Typ",
+        "Valeur": "Wert",
+        "Options": "Optionen"
+    },
+    "plugins\/doorbirdv2\/desktop\/js\/doorbirdv2.js": {
+        "Afficher": "Anzeigen",
+        "Tester": "Testen"
+    },
+    "plugins\/doorbirdv2\/core\/class\/doorbirdv2.class.php": {
+        "Lumière": "Licht",
+        "Ouverture Porte": "Türöffnung",
+        "Sonnerie": "Klingelton",
+        "Mouvement": "Bewegung",
+        "Porte": "Tür"
+    }
+}
