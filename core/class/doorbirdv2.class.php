@@ -65,7 +65,7 @@ class doorbirdv2 extends eqLogic {
         $cmd->setEqLogic_id($this->getId());
         $cmd->save();
 
-        /*$cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'doorbell');
+        $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'doorbell');
         if (!is_object($cmd)) {
             $cmd = new doorbirdv2Cmd();
             $cmd->setLogicalId('doorbell');
@@ -101,7 +101,7 @@ class doorbirdv2 extends eqLogic {
         $cmd->setTemplate("mobile",'presence');
         $cmd->setTemplate("dashboard",'presence');
         $cmd->setEqLogic_id($this->getId());
-        $cmd->save();*/
+        $cmd->save();
 
         $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'dooropen');
         if (!is_object($cmd)) {
@@ -138,7 +138,7 @@ class doorbirdv2 extends eqLogic {
 			$cmd->save();
 			$path_url_live = $cmd->getId();
 
-        $url = network::getNetworkAccess('internal') . '/plugins/doorbirdv2/core/api/jeeDoorbirdv2.php?apikey=' . jeedom::getApiKey('doorbirdv2') . '&id=' . $this->getId() . '&sensor=';
+        $url = network::getNetworkAccess('internal') . '/plugins/doorbirdv2/core/api/jeeDoorbirdv2.php?apikey=' . jeedom::getApiKey('doorbirdv2') . '%26id=' . $this->getId() . '%26sensor=';
         $addr = trim($this->getConfiguration('addr'));
         $user = trim($this->getConfiguration('user'));
         $pass = trim($this->getConfiguration('pass'));
