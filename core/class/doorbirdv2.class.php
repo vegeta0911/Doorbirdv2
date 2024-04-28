@@ -238,25 +238,6 @@ class doorbirdv2 extends eqLogic {
         $retour = file_get_contents($url,false,$ctx);
         $cible = explode('/',$url);
         
-  //simulation detection porte **********************************
-        if($cible[4] == 'open-door.cgi') {
-          foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic){
-           $name = $eqLogic->getCmd('info');
-          }
-          foreach( $name as $info) {
-              $nom = $info->getLogicalId();
-            
-               $value = 1;
-               if($nom == "dooropen"){
-                 $value = 0;
-               }
-             if($nom == "dooropen"){
-               $eqLogic->checkAndUpdateCmd('dooropen', $value);
-               $eqLogic->refreshWidget();
-             }
-          }   
-        }
-/*********************************************************************************/
         log::add('doorbirdv2', 'debug', 'Retour : ' . $retour);
     }
 }
