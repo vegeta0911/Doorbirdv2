@@ -1,5 +1,0 @@
-==== Plugin Konfiguration
-
-Das Plugin enthält keine allgemeine Konfiguration.
-
-Sie müssen die Adresse, Benutzer und Passwort vom Doorbird Gerät konfigurieren.
