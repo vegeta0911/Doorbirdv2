@@ -1,51 +1,48 @@
-
- Présentation
+Description
 ===
 
-Plugin permettant de dialoguer avec L'API Myfox api.myfox.me, pour les boxes domotique/alarme Myfox, également valable pour Evology (leroy merlin).
+1.1. Doorbird, portier connecté
+===
+Ce plugin permet d’interconnecter Jeedom avec un portier Doorbird.
 
+Il permet deux types d’interconnexions :
 
- Prérequis, installation
-=== 
-Vous devez au prealable recuperer vos identifiants sur http://api.myfox.me (connectez vous avec le meme identifiant que l'application iphone/android).
+On peut être notifier des 3 types d’évènements détectés par Doorbird : mouvement, sonnerie, ouverture
 
+Jeedom peut déclencher l’ouverture de porte et l’éclairage
 
 Configuration
-=== 
-Aprés avoir fait une MISE A JOUR du plugin, vous devez à nouveau sauvegarder l'equipement.
+===
 
+1.2 Configuration du plugin
+===
 
-Création et utilisation des équipements  
-=== 
-Ajoutez un équipement, puis indiquez-y les informations récupérées sur http://api.myfox.me (My applications) :
+Le plugin ne comporte pas de configuration générale.
 
-- Client iD
-- Client secret
-- Indiquez votre identifiant Myfox
-- Indiquez votre mot de passe Myfox
+Il faut configurer l’adresse, l’utilisateur et le mot de passe du Doorbird dans l’équipement.
 
-ATTENTION : Ne pas faire d'erreur avec le client id, client secret, id, password. En cas d'erreur, votre compte Myfox sera bloqué pendant 1 heure depuis votre IP.
+FAQ
+===
 
+Est-ce que le plugin s’appuie sur des API tiers ?
+Non, le plugin est en connexion directe avec le Doorbird
 
-Fonctionnement du plugin
-=== 
-Une fois cliqué sur le bouton "sauvegarder" le plugin recupere vos capteurs de temperature, lumiere, actionneur prise, lumiere, module, garage... C'est pourquoi il ne faut pas d'erreur dans les identifiants.
+Est-ce qu’il est possible de récupérer le flux vidéo de Doorbird ?
+Oui , avec plugin Camera de Jeedom ou directement dans le plugin Doorbird V2.
 
-Le plugin récupere toutes les minutes :
+Il y a également un widget fourni par Doorbird accessible sur :
 
-- L'etat de l'alarme (armement total, armement partiel, desarmé)
-- La temperature et luminosité du capteur Myfox TA4007 (si vous en avez un)
-	* Luminosite : paliers de retour de 1 à 6 . 1= pleine lumiere,  6 = obscurite 
+http://<deviceip>/bha-api/view.html
 
+Comment ouvrir le flux vidéo sur déclenchement d’alerte du Doorbird ?
+C’est possible avec le plugin Clink par exemple.
 
-- Dernier evenement de type "alarm","security","scenario","account","access","config","diagnosis","homeAuto","dernier event"( intrusion, defaut centrale, defaut pile, etc... ) sous la forme : "Alarme « Intrusion » déclenchée par l'appareil « ENTREE » (Sensibilité: 5). le xxxx à xxx."
-	* S'il n'y a pas d'evenement dans la journée, la commande retourne : Aucun 
+Dans Clink vous configurer un équipement avec un modal sur le flux vidéo ou le widget (voir les liens plus haut)
 
-Le plugin permet : 
+Et dans un scénario, sur déclenchement de la détection de mouvement vous actionnez l’action Clink
 
-- L'activation partiele ou totale, de desarmer l'alarme
-- L'activation ou desactivation d'un equipement (module, prise, lumiere, garage, portail)
-- L'activation de scenario enregistrés chez myfox
+Troubleshoting
+===
 
-Avenir:
-je suis en train de voir pour mettre en place le flux vidéo mais sans caméra je pourrais pas aller plus  loin.
+Je n’ai pas d’informations qui remontent
+Il faut bien vérifier que votre Doorbird est en version supérieure à 000091
