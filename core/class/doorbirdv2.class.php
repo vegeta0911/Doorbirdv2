@@ -235,6 +235,7 @@ class doorbirdv2 extends eqLogic {
             doorbirdv2::syncCamera($this->getConfiguration('addr'),$this->getConfiguration('user'),$this->getConfiguration('pass'));
         }
             doorbirdv2::apirl(); 
+	    doorbirdv2::callDoor('info.cgi');
     }
  
  public static function apirl() {  
