@@ -21,9 +21,7 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class doorbirdv2 extends eqLogic {
    public static function cron10(){
-     if (!class_exists('camera')) {
      doorbirdv2::apirl();
-     }
     }
    
     public function preUpdate() {
@@ -208,7 +206,7 @@ class doorbirdv2 extends eqLogic {
 			$cmd->setEqLogic_id($this->getId());
 			$cmd->setIsVisible(1);
 			$cmd->save();
-        if (!class_exists('camera')) {
+  
 	    $cmd = $this->getCmd(null, 'path_url_live');
 		if (!is_object($cmd)) {
 			$cmd = new doorbirdv2Cmd();
@@ -223,7 +221,7 @@ class doorbirdv2 extends eqLogic {
 			$cmd->setIsVisible(1);
 			$cmd->save();
 			//$path_url_live = $cmd->getId();
-        }
+        
       
         $url = network::getNetworkAccess('internal') . '/plugins/doorbirdv2/core/api/jeeDoorbirdv2.php?apikey=' . jeedom::getApiKey('doorbirdv2') . '%26id=' . $this->getId() . '%26sensor=';
         $this->callDoor('notification.cgi?reset=1');
@@ -236,10 +234,8 @@ class doorbirdv2 extends eqLogic {
         if (class_exists('camera')) {
             doorbirdv2::syncCamera($this->getConfiguration('addr'),$this->getConfiguration('user'),$this->getConfiguration('pass'));
         }
-           if (!class_exists('camera')) {
+          
             doorbirdv2::apirl();
-           }
-      
             doorbirdv2::callDoor('info.cgi');
     }
  
