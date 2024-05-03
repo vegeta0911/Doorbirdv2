@@ -291,7 +291,7 @@ class doorbirdv2 extends eqLogic {
             exit;
         }
         $auth = base64_encode(trim($this->getConfiguration('user')) . ':' . trim($this->getConfiguration('pass')));
-        $request_http = new com_http('http://' . trim($this->getConfiguration('addr')) . '/bha-api/' . $_uri);
+        $request_http = new com_http('https://' . trim($this->getConfiguration('addr')) . '/bha-api/' . $_uri);
         $request_http->setHeader(array("Authorization: Basic $auth"));
         $retour = $request_http->exec(30);
         if($_uri == "info.cgi"){
