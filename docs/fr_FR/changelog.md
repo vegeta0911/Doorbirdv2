@@ -1,3 +1,7 @@
+mise à jour le 19/05/2024
+===
+- mise en place de la détection par image et image par appel.
+  
 mise à jour le 02/05/2024
 ===
 
