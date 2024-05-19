@@ -20,10 +20,13 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class doorbirdv2 extends eqLogic {
-   public static function cron10(){
+    public static function cron10(){
      doorbirdv2::apirl();
     }
-   
+    public static function cron(){
+        doorbirdv2::doorcamov();
+        doorbirdv2::doorappel();
+    }
     public function preUpdate() {
         if ($this->getConfiguration('addr') == '') {
             throw new Exception(__('L\'adresse ne peut être vide',__FILE__));
@@ -42,7 +45,8 @@ class doorbirdv2 extends eqLogic {
             $cmd->setLogicalId('light');
             $cmd->setIsVisible(1);
             $cmd->setName(__('Lumière', __FILE__));
-            $cmd->setOrder(2);
+            $cmd->setOrder(7);
+            
         }
         $cmd->setType('action');
         $cmd->setSubType('other');
@@ -56,28 +60,31 @@ class doorbirdv2 extends eqLogic {
             $cmd->setLogicalId('door');
             $cmd->setIsVisible(1);
             $cmd->setName(__('Ouverture Porte', __FILE__));
-            $cmd->setOrder(3);
+            $cmd->setOrder(6);
+            
         }
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setConfiguration('url','open-door.cgi');
+        $cmd->setConfiguration('url','open-door.cgi?r=1');
         $cmd->setEqLogic_id($this->getId());
         $cmd->save();
         
-        /*if (strpos($this->getConfiguration('type'),'D21')) {
+        
+        if (strpos($this->getConfiguration('type'),'D21')) {
             $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'door2');
             if (!is_object($cmd)) {
                 $cmd = new doorbirdv2Cmd();
                 $cmd->setLogicalId('door2');
                 $cmd->setIsVisible(1);
                 $cmd->setName(__('Ouverture Relais 2', __FILE__));
+                $cmd->setOrder(5);
             }
             $cmd->setType('action');
             $cmd->setSubType('other');
             $cmd->setConfiguration('url','open-door.cgi?r=2');
             $cmd->setEqLogic_id($this->getId());
             $cmd->save();
-        }*/
+        }
 
         $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'doorbell');
         if (!is_object($cmd)) {
@@ -86,6 +93,7 @@ class doorbirdv2 extends eqLogic {
             $cmd->setIsVisible(1);
             $cmd->setName(__('Sonnerie', __FILE__));
             $cmd->setOrder(4);
+            
         }
         $cmd->setType('info');
         $cmd->setSubType('binary');
@@ -104,7 +112,8 @@ class doorbirdv2 extends eqLogic {
             $cmd->setLogicalId('motion');
             $cmd->setIsVisible(1);
             $cmd->setName(__('Mouvement', __FILE__));
-            $cmd->setOrder(5);
+            $cmd->setOrder(3);
+            
         }
         $cmd->setType('info');
         $cmd->setSubType('binary');
@@ -123,7 +132,8 @@ class doorbirdv2 extends eqLogic {
             $cmd->setLogicalId('dooropen');
             $cmd->setIsVisible(1);
             $cmd->setName(__('Porte', __FILE__));
-            $cmd->setOrder(6);
+            $cmd->setOrder(2);
+            
         }
         $cmd->setType('info');
         $cmd->setSubType('binary');
@@ -139,14 +149,15 @@ class doorbirdv2 extends eqLogic {
         $cmd = $this->getCmd(null, 'firmware');
 		if (!is_object($cmd)) {
 			$cmd = new doorbirdv2Cmd();
-            $cmd->setEqLogic_id($this->getId());
+                        $cmd->setEqLogic_id($this->getId());
 			$cmd->setLogicalId('firmware');
-		    $cmd->setName(__('FIRMWARE:', __FILE__));
-			$cmd->setOrder(7);
+		        $cmd->setName(__('FIRMWARE:', __FILE__));
+                        $cmd->setOrder(8);
+			
 			}
 			$cmd->setType('info');
 			$cmd->setSubType('string');
-            $cmd->setConfiguration('firmware', $info[0]);
+                        $cmd->setConfiguration('firmware', $info[0]);
 			$cmd->setEqLogic_id($this->getId());
 			$cmd->setIsVisible(1);
 			$cmd->save();
@@ -154,10 +165,11 @@ class doorbirdv2 extends eqLogic {
         $cmd = $this->getCmd(null, 'build_number');
 		if (!is_object($cmd)) {
 			$cmd = new doorbirdv2Cmd();
-            $cmd->setEqLogic_id($this->getId());
+                        $cmd->setEqLogic_id($this->getId());
 			$cmd->setLogicalId('build_number');
-		    $cmd->setName(__('BUILD_NUMBER:', __FILE__));
-			$cmd->setOrder(8);
+		        $cmd->setName(__('BUILD_NUMBER:', __FILE__));
+                        $cmd->setOrder(9);
+			
 			}
 			$cmd->setType('info');
 			$cmd->setSubType('string');
@@ -168,10 +180,11 @@ class doorbirdv2 extends eqLogic {
         $cmd = $this->getCmd(null, 'mac_addr');
 		if (!is_object($cmd)) {
 			$cmd = new doorbirdv2Cmd();
-            $cmd->setEqLogic_id($this->getId());
+                        $cmd->setEqLogic_id($this->getId());
 			$cmd->setLogicalId('mac_addr');
-		    $cmd->setName(__('MAC_ADDR:', __FILE__));
-			$cmd->setOrder(9);
+		        $cmd->setName(__('MAC_ADDR:', __FILE__));
+                        $cmd->setOrder(10);
+			
 			}
 			$cmd->setType('info');
 			$cmd->setSubType('string');
@@ -182,10 +195,11 @@ class doorbirdv2 extends eqLogic {
         $cmd = $this->getCmd(null, 'relay');
 		if (!is_object($cmd)) {
 			$cmd = new doorbirdv2Cmd();
-            $cmd->setEqLogic_id($this->getId());
+                        $cmd->setEqLogic_id($this->getId());
 			$cmd->setLogicalId('relay');
-		    $cmd->setName(__('RELAY:', __FILE__));
-			$cmd->setOrder(10);
+		        $cmd->setName(__('RELAY:', __FILE__));
+                        $cmd->setOrder(11);
+			
 			}
 			$cmd->setType('info');
 			$cmd->setSubType('string');
@@ -193,13 +207,14 @@ class doorbirdv2 extends eqLogic {
 			$cmd->setIsVisible(1);
 			$cmd->save();
       
-        $cmd = $this->getCmd(null, 'device-type');
+           $cmd = $this->getCmd(null, 'device-type');
 		if (!is_object($cmd)) {
 			$cmd = new doorbirdv2Cmd();
-            $cmd->setEqLogic_id($this->getId());
+                        $cmd->setEqLogic_id($this->getId());
 			$cmd->setLogicalId('device-type');
-		    $cmd->setName(__('DEVICE-TYPE:', __FILE__));
-			$cmd->setOrder(11);
+		        $cmd->setName(__('DEVICE-TYPE:', __FILE__));
+                        $cmd->setOrder(12);
+			
 			}
 			$cmd->setType('info');
 			$cmd->setSubType('string');
@@ -210,18 +225,47 @@ class doorbirdv2 extends eqLogic {
 	    $cmd = $this->getCmd(null, 'path_url_live');
 		if (!is_object($cmd)) {
 			$cmd = new doorbirdv2Cmd();
-            $cmd->setEqLogic_id($this->getId());
-		    $cmd->setLogicalId('path_url_live');
+                        $cmd->setEqLogic_id($this->getId());
+		        $cmd->setLogicalId('path_url_live');
 			$cmd->setName(__('Camera Doorbird', __FILE__));
-			$cmd->setOrder(1);
+                        $cmd->setOrder(1);
+			
 			}
 			$cmd->setType('info');
 			$cmd->setSubType('string');
 			$cmd->setEqLogic_id($this->getId());
 			$cmd->setIsVisible(1);
 			$cmd->save();
-			//$path_url_live = $cmd->getId();
-        
+
+            $cmd = $this->getCmd(null, 'imagemov');
+		if (!is_object($cmd)) {
+			$cmd = new doorbirdv2Cmd();
+            $cmd->setEqLogic_id($this->getId());
+		        $cmd->setLogicalId('imagemov');
+		        $cmd->setName(__('Image Mouvements', __FILE__));
+                        $cmd->setOrder(13);
+			
+			}
+			$cmd->setType('info');
+			$cmd->setSubType('string');
+			$cmd->setEqLogic_id($this->getId());
+			$cmd->setIsVisible(1);
+			$cmd->save();
+			
+            $cmd = $this->getCmd(null, 'imageappel');
+		if (!is_object($cmd)) {
+			$cmd = new doorbirdv2Cmd();
+                        $cmd->setEqLogic_id($this->getId());
+		        $cmd->setLogicalId('imageappel');
+			$cmd->setName(__('Image Appel', __FILE__));
+                        $cmd->setOrder(14);
+			
+			}
+			$cmd->setType('info');
+			$cmd->setSubType('string');
+			$cmd->setEqLogic_id($this->getId());
+			$cmd->setIsVisible(1);
+			$cmd->save();
       
         $url = network::getNetworkAccess('internal') . '/plugins/doorbirdv2/core/api/jeeDoorbirdv2.php?apikey=' . jeedom::getApiKey('doorbirdv2') . '%26id=' . $this->getId() . '%26sensor=';
         $this->callDoor('notification.cgi?reset=1');
@@ -237,9 +281,10 @@ class doorbirdv2 extends eqLogic {
           
             doorbirdv2::apirl();
             doorbirdv2::callDoor('info.cgi');
+            
     }
  
- public static function apirl() {  
+    public static function apirl() {  
       foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
             
             $addr = trim($eqLogic->getConfiguration('addr'));
@@ -250,17 +295,45 @@ class doorbirdv2 extends eqLogic {
             $api = explode("  ", $retours);
             $api1 = explode(":", $api[0]);
             $api3 = substr($api1[3], 2, 61);
-        
-            $urlLive = 'http://' . $addr . '/bha-api/video.cgi?sessionid='.$api3;
+        }
+          log::add('doorbirdv2', 'debug', 'Camera SESSIONID : ' . $api3 . ' avec ' . $user . ':' . $pass);
+          doorbirdv2::doorcam($api3,$addr);     
+    } 
+  
+    Public function doorcam($api,$ip) {
+        foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
+            $urlLive = 'http://' . $ip . '/bha-api/video.cgi?sessionid='.$api;
             $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
             
+            log::add('doorbirdv2', 'debug', 'Camera api : ' . $api . ' avec ' . $urlLive . ':' . $pass);
             $eqLogic->checkAndUpdateCmd('path_url_live', $form);
             $eqLogic->refreshWidget();
         }
-          log::add('doorbirdv2', 'debug', 'Camera SESSIONID : ' . $urlLive . ' avec ' . $user . ':' . $pass);
-  }
-  
-  public function syncCamera($_addr,$_user,$_pass) {
+    }
+    
+    Public function doorappel() {
+        foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
+            $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&index=1';
+            $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
+            
+            log::add('doorbirdv2', 'debug', 'ImageAppel api : '. $urlLive);
+            $eqLogic->checkAndUpdateCmd('imageappel', $form);
+            $eqLogic->refreshWidget();
+        }
+    }
+
+    Public function doorcamov() {
+        foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
+            $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&event=motionsensor&index=1';
+            $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
+            
+            log::add('doorbirdv2', 'debug', 'ImageMov api : '. $urlLive);
+            $eqLogic->checkAndUpdateCmd('imagemov', $form);
+            $eqLogic->refreshWidget();
+        }
+    }
+
+    public function syncCamera($_addr,$_user,$_pass) {
         $urlfinal = 'http://' . $_addr . '/bha-api/video.cgi?http-user=#user#&http-password=#password#';
         $camera = camera::byLogicalId($_addr, 'camera');
         if (!is_object($camera)) {
@@ -281,7 +354,7 @@ class doorbirdv2 extends eqLogic {
             $camera->setLogicalId($_addr);
             $camera->save();
         }
-  }
+    }
     public function postRemove() {
         $this->callDoor('notification.cgi?reset=1');
     }
