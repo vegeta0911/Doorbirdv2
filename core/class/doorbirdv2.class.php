@@ -300,7 +300,7 @@ class doorbirdv2 extends eqLogic {
           doorbirdv2::doorcam($api3,$addr);     
     } 
   
-    Public static function doorcam($api,$ip) {
+    public static function doorcam($api,$ip) {
         foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
             $urlLive = 'http://' . $ip . '/bha-api/video.cgi?sessionid='.$api;
             $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
@@ -311,7 +311,7 @@ class doorbirdv2 extends eqLogic {
         }
     }
     
-    Public static function doorappel() {
+    public static function doorappel() {
         foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
             $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&index=1';
             $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
@@ -322,7 +322,7 @@ class doorbirdv2 extends eqLogic {
         }
     }
 
-    Public static function doorcamov() {
+    public static function doorcamov() {
         foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
             $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&event=motionsensor&index=1';
             $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
