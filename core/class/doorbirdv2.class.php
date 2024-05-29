@@ -314,7 +314,21 @@ class doorbirdv2 extends eqLogic {
     public static function doorappel() {
         foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
             $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&index=1';
-            $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
+            
+            if (!file_exists(dirname(__FILE__) . '/../../data/Appel')) {
+	       mkdir(dirname(__FILE__) . '/../../data/Appel', 0777, true);
+	    }
+             
+                $img = '/var/www/html/plugins/doorbirdv2/data/Appel/appel.png';
+                $accesimg = 'plugins/doorbirdv2/data/Appel/appel.png';
+                $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
+                file_put_contents($img, file_get_contents($urlLive));
+                $ch = curl_init($urlLive);
+                $fp = fopen($img, 'wb');
+                curl_setopt($ch, CURLOPT_FILE, $fp);
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_exec($ch);
+                fclose($fp);
             
             log::add('doorbirdv2', 'debug', 'ImageAppel api : '. $urlLive);
             $eqLogic->checkAndUpdateCmd('imageappel', $form);
@@ -324,8 +338,22 @@ class doorbirdv2 extends eqLogic {
 
     public static function doorcamov() {
         foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
-            $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&event=motionsensor&index=1';
-            $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
+            if (!file_exists(dirname(__FILE__) . '/../../data/Move')) {
+	        mkdir(dirname(__FILE__) . '/../../data/Move', 0777, true);
+	    }
+
+                $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&event=motionsensor&index=1';
+                $img = '/var/www/html/plugins/doorbirdv2/data/Move/mov.png';
+                file_put_contents($img, file_get_contents($urlLive));
+                $ch = curl_init($urlLive);
+                $fp = fopen($img, 'wb');
+                curl_setopt($ch, CURLOPT_FILE, $fp);
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_exec($ch);
+                fclose($fp);
+                $accesimg = 'plugins/doorbirdv2/data/Move/mov.png';
+                $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
+                
             
             log::add('doorbirdv2', 'debug', 'ImageMov api : '. $urlLive);
             $eqLogic->checkAndUpdateCmd('imagemov', $form);
