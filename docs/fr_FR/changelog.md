@@ -1,3 +1,7 @@
+mise à jour le 29/05/2024
+===
+- Maintenant image par détection et image par appel est possible de le voir à l'extétrieur via Jeedom.
+  
 mise à jour le 19/05/2024
 ===
 - mise en place de la détection par image et image par appel.
