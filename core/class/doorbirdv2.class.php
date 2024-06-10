@@ -68,23 +68,6 @@ class doorbirdv2 extends eqLogic {
         $cmd->setConfiguration('url','open-door.cgi?r=1');
         $cmd->setEqLogic_id($this->getId());
         $cmd->save();
-        
-        
-        if (strpos($this->getConfiguration('type'),'D21')) {
-            $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'door2');
-            if (!is_object($cmd)) {
-                $cmd = new doorbirdv2Cmd();
-                $cmd->setLogicalId('door2');
-                $cmd->setIsVisible(1);
-                $cmd->setName(__('Ouverture Relais 2', __FILE__));
-                $cmd->setOrder(5);
-            }
-            $cmd->setType('action');
-            $cmd->setSubType('other');
-            $cmd->setConfiguration('url','open-door.cgi?r=2');
-            $cmd->setEqLogic_id($this->getId());
-            $cmd->save();
-        }
 
         $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'doorbell');
         if (!is_object($cmd)) {
