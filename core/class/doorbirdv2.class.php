@@ -380,15 +380,18 @@ class doorbirdv2 extends eqLogic {
         $retour = $request_http->exec(30);
         if($_uri == "info.cgi"){
           
-          $retour1 = explode('[{', $retour);
-          $retour2 = explode(',', $retour1[1]);
+          $retour1 = explode('[{',$retour);
+          $retour2 = explode(',',$retour1[1]);
+          $retour3 = explode(' , ',$retour2);
+          $retour4 = explode(":",substr($retour1[1],88,11));
+          $retour5 = explode(',]',$retour4[1].']');
          
           $info = '';
-          $info = array(0 => substr($retour2[0],12,-1),
-                        1 => substr($retour2[1],17,-1),
-                        2 => substr($retour2[2],18,-1),
-                        3 => substr($retour2[3],11,-2),
-                        4 => substr($retour2[4],16,-5));
+          $info = array(0 => substr($retour1[1],13,6),
+                        1 => substr($retour1[1],38,-90),
+                        2 => substr($retour1[1],66,-58),
+                        3 => $retour5[0],
+                        4 => substr($retour1[1],115,16));
          
           $this->checkAndUpdateCmd('firmware', $info[0]);
           $this->checkAndUpdateCmd('build_number', $info[1]);
