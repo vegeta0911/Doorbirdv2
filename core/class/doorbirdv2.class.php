@@ -31,10 +31,17 @@ class doorbirdv2 extends eqLogic {
         if ($this->getConfiguration('addr') == '') {
             throw new Exception(__('L\'adresse ne peut être vide',__FILE__));
         }
+        $info = $this->callDoor('info.cgi');
+        $this->setConfiguration('firmware',$info['BHA']['VERSION'][0]['FIRMWARE']);
+        $this->setConfiguration('build',$info['BHA']['VERSION'][0]['BUILD_NUMBER']);
+        $this->setConfiguration('type',$info['BHA']['VERSION'][0]['DEVICE-TYPE']);
+        $this->setConfiguration('mac',$info['BHA']['VERSION'][0]['WIFI_MAC_ADDR']);
+        $this->setConfiguration('relai',json_encode($info['BHA']['VERSION'][0]['RELAYS']),true);
     }
 
     public function preSave() {
         $this->setLogicalId($this->getConfiguration('addr'));
+        
     }
 
 
@@ -68,6 +75,23 @@ class doorbirdv2 extends eqLogic {
         $cmd->setConfiguration('url','open-door.cgi?r=1');
         $cmd->setEqLogic_id($this->getId());
         $cmd->save();
+        
+        
+        if (strpos($this->getConfiguration('type'),'D21')) {
+            $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'door2');
+            if (!is_object($cmd)) {
+                $cmd = new doorbirdv2Cmd();
+                $cmd->setLogicalId('door2');
+                $cmd->setIsVisible(1);
+                $cmd->setName(__('Ouverture Porte 2', __FILE__));
+                $cmd->setOrder(5);
+            }
+            $cmd->setType('action');
+            $cmd->setSubType('other');
+            $cmd->setConfiguration('url','open-door.cgi?r=2');
+            $cmd->setEqLogic_id($this->getId());
+            $cmd->save();
+        }
 
         $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'doorbell');
         if (!is_object($cmd)) {
@@ -128,82 +152,6 @@ class doorbirdv2 extends eqLogic {
         $cmd->setTemplate("dashboard",'door' );
         $cmd->setEqLogic_id($this->getId());
         $cmd->save();
-        
-        $cmd = $this->getCmd(null, 'firmware');
-		if (!is_object($cmd)) {
-			$cmd = new doorbirdv2Cmd();
-                        $cmd->setEqLogic_id($this->getId());
-			$cmd->setLogicalId('firmware');
-		        $cmd->setName(__('FIRMWARE:', __FILE__));
-                        $cmd->setOrder(8);
-			
-			}
-			$cmd->setType('info');
-			$cmd->setSubType('string');
-                        $cmd->setConfiguration('firmware', $info[0]);
-			$cmd->setEqLogic_id($this->getId());
-			$cmd->setIsVisible(1);
-			$cmd->save();
-       
-        $cmd = $this->getCmd(null, 'build_number');
-		if (!is_object($cmd)) {
-			$cmd = new doorbirdv2Cmd();
-                        $cmd->setEqLogic_id($this->getId());
-			$cmd->setLogicalId('build_number');
-		        $cmd->setName(__('BUILD_NUMBER:', __FILE__));
-                        $cmd->setOrder(9);
-			
-			}
-			$cmd->setType('info');
-			$cmd->setSubType('string');
-			$cmd->setEqLogic_id($this->getId());
-			$cmd->setIsVisible(1);
-			$cmd->save();
-        
-        $cmd = $this->getCmd(null, 'mac_addr');
-		if (!is_object($cmd)) {
-			$cmd = new doorbirdv2Cmd();
-                        $cmd->setEqLogic_id($this->getId());
-			$cmd->setLogicalId('mac_addr');
-		        $cmd->setName(__('MAC_ADDR:', __FILE__));
-                        $cmd->setOrder(10);
-			
-			}
-			$cmd->setType('info');
-			$cmd->setSubType('string');
-			$cmd->setEqLogic_id($this->getId());
-			$cmd->setIsVisible(1);
-			$cmd->save();
-      
-        $cmd = $this->getCmd(null, 'relay');
-		if (!is_object($cmd)) {
-			$cmd = new doorbirdv2Cmd();
-                        $cmd->setEqLogic_id($this->getId());
-			$cmd->setLogicalId('relay');
-		        $cmd->setName(__('RELAY:', __FILE__));
-                        $cmd->setOrder(11);
-			
-			}
-			$cmd->setType('info');
-			$cmd->setSubType('string');
-			$cmd->setEqLogic_id($this->getId());
-			$cmd->setIsVisible(1);
-			$cmd->save();
-      
-           $cmd = $this->getCmd(null, 'device-type');
-		if (!is_object($cmd)) {
-			$cmd = new doorbirdv2Cmd();
-                        $cmd->setEqLogic_id($this->getId());
-			$cmd->setLogicalId('device-type');
-		        $cmd->setName(__('DEVICE-TYPE:', __FILE__));
-                        $cmd->setOrder(12);
-			
-			}
-			$cmd->setType('info');
-			$cmd->setSubType('string');
-			$cmd->setEqLogic_id($this->getId());
-			$cmd->setIsVisible(1);
-			$cmd->save();
   
 	    $cmd = $this->getCmd(null, 'path_url_live');
 		if (!is_object($cmd)) {
@@ -261,10 +209,7 @@ class doorbirdv2 extends eqLogic {
         if (class_exists('camera')) {
             doorbirdv2::syncCamera($this->getConfiguration('addr'),$this->getConfiguration('user'),$this->getConfiguration('pass'));
         }
-          
-            doorbirdv2::apirl();
-            doorbirdv2::callDoor('info.cgi');
-            
+            doorbirdv2::apirl();   
     }
  
     public static function apirl() {  
@@ -377,51 +322,9 @@ class doorbirdv2 extends eqLogic {
         $auth = base64_encode(trim($this->getConfiguration('user')) . ':' . trim($this->getConfiguration('pass')));
         $request_http = new com_http('https://' . trim($this->getConfiguration('addr')) . '/bha-api/' . $_uri);
         $request_http->setHeader(array("Authorization: Basic $auth"));
-        $retour = $request_http->exec(30);
-        if($_uri == "info.cgi"){
-          
-          $retour1 = explode('[{',$retour);
-          $retour2 = explode(',',$retour1[1]);
-          $retour3 = explode(' , ',$retour2);
-          $retour4 = explode(":",substr($retour1[1],88,11));
-          $retour5 = explode(',]',$retour4[1].']');
-         
-          $info = '';
-          $info = array(0 => substr($retour1[1],13,6),
-                        1 => substr($retour1[1],38,-90),
-                        2 => substr($retour1[1],66,-58),
-                        3 => $retour5[0],
-                        4 => substr($retour1[1],115,16));
-         
-          $this->checkAndUpdateCmd('firmware', $info[0]);
-          $this->checkAndUpdateCmd('build_number', $info[1]);
-          $this->checkAndUpdateCmd('mac_addr', $info[2]);
-          $this->checkAndUpdateCmd('relay', $info[3]);
-          $this->checkAndUpdateCmd('device-type', $info[4]);
-          $this->refreshWidget();
-          
-          log::add('doorbirdv2', 'debug', 'Appel : ' . print_r($info, true));
-
-           $commande = substr($info[4], 0, 12);
-         if ($commande == 'DoorBird D21') {
-            $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'door2');
-            if (!is_object($cmd)) {
-                $cmd = new doorbirdv2Cmd();
-                $cmd->setLogicalId('door2');
-                $cmd->setIsVisible(1);
-                $cmd->setName(__('Ouverture Porte 2', __FILE__));
-                $cmd->setOrder(5);
-            }
-            $cmd->setType('action');
-            $cmd->setSubType('other');
-            $cmd->setConfiguration('url','open-door.cgi?r=2');
-            $cmd->setEqLogic_id($this->getId());
-            $cmd->save();
-        }
-         
-          return $info;
-        }
-        log::add('doorbirdv2', 'debug', 'Appel : ' . $_uri . ', Retour : ' . $retour);
+        $retour = json_decode($request_http->exec(30),true);
+    
+        log::add('doorbirdv2', 'debug', 'Appel : ' . $_uri . ', Retour : ' . json_encode($retour),true);
         return $retour;
       
     }
