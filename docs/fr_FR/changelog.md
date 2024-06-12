@@ -1,3 +1,7 @@
+mise à jour le 12/06/2024
+===
+- Maintenant les informations supplémentaire (firmware etc..) du doorbird sont dans la page de configuration du plugin.
+  
 mise à jour le 29/05/2024
 ===
 - Maintenant image par détection et image par appel est possible de le voir à l'extétrieur via Jeedom.
