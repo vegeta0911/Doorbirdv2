@@ -139,6 +139,40 @@ $eqLogics = eqLogic::byType('doorbirdv2');
               </div>
             </div>
 
+            <div class="form-group">
+              <label class="col-sm-3 control-label">{{Firmware}}</label>
+                <div class="col-sm-3">
+                  <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="firmware"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">{{Build Number}}</label>
+                <div class="col-sm-3">
+                  <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="build"></span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">{{Device}}</label>
+                <div class="col-sm-3">
+                  <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="type"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">{{Mac Adresse}}</label>
+                <div class="col-sm-3">
+                  <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="mac"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">{{Relais}}</label>
+                <div class="col-sm-3">
+                  <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="relai"></span>
+                </div>
+            </div>
           </fieldset>
         </form>
       </div>
