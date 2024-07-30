@@ -4,6 +4,7 @@
 	"licence" : "AGPL",
 	"author" : "vegeta0911",
 	"require" : "4.4",
+	"version": "2.9",
 	"category" : "security",
     "hasOwnDeamon": false,
     "hasDependency" : false,
