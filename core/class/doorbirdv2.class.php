@@ -21,7 +21,15 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class doorbirdv2 extends eqLogic {
    public static function cron10(){
-     doorbirdv2::apirl();
+      $eqLogics = eqLogic::byType('doorbirdv2', true);
+      if($eqLogics[0] == ''){
+        log::add('doorbirdv2', 'error', 'Merci de configurer un n\'équipement');
+       }  
+      else
+      {
+         doorbirdv2::apirl();
+      }
+    }
     }
    
     public function preUpdate() {
