@@ -240,7 +240,7 @@ class doorbirdv2 extends eqLogic {
             $urlLive = 'http://' . $ip . '/bha-api/video.cgi?sessionid='.$api;
             $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
             
-            log::add('doorbirdv2', 'debug', 'Camera api : ' . $api . ' avec ' . $urlLive . ':' . $pass);
+            log::add('doorbirdv2', 'debug', 'Camera api : ' . $api . ' avec ' . $urlLive);
             $eqLogic->checkAndUpdateCmd('path_url_live', $form);
             $eqLogic->refreshWidget();
         }
@@ -298,7 +298,7 @@ class doorbirdv2 extends eqLogic {
                     return substr($headers[0], 9, 3);
                 }
                 if(get_http_response_move($urlLive) != "200"){
-                    $accesimg = 'plugins/doorbirdv2/data/Appel/no_image.png';
+                    $accesimg = 'plugins/doorbirdv2/data/no_image.png';
                     $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
                     log::add('doorbirdv2', 'info', 'ImageMov pas d&apos;image trouvé : '. $urlLive);
                     $eqLogic->checkAndUpdateCmd('imagemov', $form);
