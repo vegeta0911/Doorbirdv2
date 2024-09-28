@@ -1,3 +1,7 @@
+mise à jour le 28/09/2024
+===
+- Mise en place d'une image (no-image) pour remplacement du vide, s'il y a du vide.
+
 mise à jour le 12/06/2024
 ===
 - Maintenant les informations supplémentaire (firmware etc..) du doorbird sont dans la page de configuration du plugin.
