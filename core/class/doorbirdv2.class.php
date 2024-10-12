@@ -300,7 +300,7 @@ class doorbirdv2 extends eqLogic {
                 if(get_http_response_move($urlLive) != "200"){
                     $accesimg = 'plugins/doorbirdv2/data/no_image.png';
                     $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
-                    log::add('doorbirdv2', 'info', 'ImageMov pas d&apos;image trouvé : '. $urlLive);
+                    //log::add('doorbirdv2', 'info', 'ImageMov pas d&apos;image trouvé : '. $urlLive);
                     $eqLogic->checkAndUpdateCmd('imagemov', $form);
                     $eqLogic->refreshWidget();
                      
