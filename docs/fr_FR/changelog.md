@@ -1,3 +1,5 @@
+S'il n'y pas de date de changement majeur qui metterait le plugin en péril, Alors c'est des mises à jour de document.
+
 mise à jour le 28/09/2024
 ===
 - Mise en place d'une image (no-image) pour remplacement du vide, s'il y a du vide.
