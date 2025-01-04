@@ -1,4 +1,4 @@
-S'il n'y pas de date de changement majeur qui metterait le plugin en péril, Alors c'est des mises à jour de document.
+S'il n'y a pas de date de changement majeur d'amélioration du plugin, Alors ce sont des mises à jour de document.
 ===
 
 
