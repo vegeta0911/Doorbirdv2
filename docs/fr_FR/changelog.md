@@ -1,14 +1,13 @@
 S'il n'y a pas de date de changement majeur d'amélioration du plugin, Alors ce sont des mises à jour de document.
 ===
 
-
+mise à jour le 23/01/2024
+===
+- Maintenant les informations supplémentaire (firmware etc..) du doorbird sont dans la page de configuration du plugin.
+  
 mise à jour le 28/09/2024
 ===
 - Mise en place d'une image (no-image) pour remplacement du vide, s'il y a du vide.
-
-mise à jour le 12/06/2024
-===
-- Maintenant les informations supplémentaire (firmware etc..) du doorbird sont dans la page de configuration du plugin.
   
 mise à jour le 29/05/2024
 ===
