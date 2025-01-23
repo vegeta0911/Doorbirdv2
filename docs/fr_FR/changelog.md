@@ -1,7 +1,7 @@
 S'il n'y a pas de date de changement majeur d'amélioration du plugin, Alors ce sont des mises à jour de document.
 ===
 
-mise à jour le 23/01/2024
+mise à jour le 23/01/2025
 ===
 - Maintenant les informations supplémentaire (firmware etc..) du doorbird sont dans la page de configuration du plugin.
   
