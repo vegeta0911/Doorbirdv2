@@ -24,7 +24,7 @@ function addCmdToTable(_cmd) {
         tr += '<td>';
         tr += '<span class="cmdAttr" data-l1key="id"></span>';
         tr += '</td><td>';
-        tr += '<span class="cmdAttr" data-l1key="name"></span>';
+        tr += '<input class="cmdAttr" data-l1key="name">';
         tr += '</td><td>';
         tr += '<span class="cmdAttr" data-l1key="type"></span> / <span class="cmdAttr" data-l1key="subType"></span>';
         tr += '</td>';
