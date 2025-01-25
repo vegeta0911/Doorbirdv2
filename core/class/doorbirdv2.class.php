@@ -53,7 +53,34 @@ class doorbirdv2 extends eqLogic {
 
 
     public function postUpdate() {
-       $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'light');
+
+       $relais = $this->getConfiguration('relai');
+       log::add('doorbirdv2', 'debug', 'Relais : '. $relais );
+       
+       $jsonData = $relais;  
+       $data = json_decode($jsonData, true);  
+
+       $index = 0;
+
+        while ($index < count($data)) {
+           
+            $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'door'.$data[$index]);
+            if (!is_object($cmd)) {
+                $cmd = new doorbirdv2Cmd();
+                $cmd->setLogicalId('door'.$data[$index]);
+                $cmd->setIsVisible(1);
+                $cmd->setName(__('Ouverture Porte '.$data[$index], __FILE__));
+                $cmd->setOrder(5);
+            }
+            $cmd->setType('action');
+            $cmd->setSubType('other');
+            $cmd->setConfiguration('url','open-door.cgi?r='.$data[$index]);
+            $cmd->setEqLogic_id($this->getId());
+            $cmd->save();
+            $index++;  // Passer à l'élément suivant
+        } 
+
+        $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'light');
         if (!is_object($cmd)) {
             $cmd = new doorbirdv2Cmd();
             $cmd->setLogicalId('light');
@@ -68,7 +95,7 @@ class doorbirdv2 extends eqLogic {
         $cmd->setEqLogic_id($this->getId());
         $cmd->save();
 
-        $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'door');
+        /*$cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'door');
         if (!is_object($cmd)) {
             $cmd = new doorbirdv2Cmd();
             $cmd->setLogicalId('door');
@@ -98,7 +125,7 @@ class doorbirdv2 extends eqLogic {
             $cmd->setConfiguration('url','open-door.cgi?r=2');
             $cmd->setEqLogic_id($this->getId());
             $cmd->save();
-        }
+        }*/
 
         $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'doorbell');
         if (!is_object($cmd)) {
