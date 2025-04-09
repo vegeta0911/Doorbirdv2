@@ -24,7 +24,7 @@ function addCmdToTable(_cmd) {
         tr += '<td>';
         tr += '<span class="cmdAttr" data-l1key="id"></span>';
         tr += '</td><td>';
-        tr += '<span class="cmdAttr" data-l1key="name"></span>';
+        tr += '<input class="cmdAttr" data-l1key="name">';
         tr += '</td><td>';
         tr += '<span class="cmdAttr" data-l1key="type"></span> / <span class="cmdAttr" data-l1key="subType"></span>';
         tr += '</td>';
@@ -53,7 +53,8 @@ function addCmdToTable(_cmd) {
         $('#table_cmd tbody').append(tr);
         //$('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
         var tr = $('#table_cmd tbody tr:last');
-      jeedom.eqLogic.builSelectCmd({
+      
+      jeedom.eqLogic.buildSelectCmd({
       id: $(".li_eqLogic.active").attr('data-eqLogic_id'),
       filter: {type: 'info'},
       error: function (error) {

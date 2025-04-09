@@ -119,7 +119,7 @@ $eqLogics = eqLogic::byType('doorbirdv2');
             </div>
 
             <div class="form-group">
-              <label class="col-sm-3 control-label">{{Adresse IP du doorbird}}</label>
+              <label class="col-sm-3 control-label">{{Adresse IP ou nom Domain du doorbird}}</label>
               <div class="col-sm-3">
                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="addr" placeholder="adresse IP de la carte relais"/>
               </div>

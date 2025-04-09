@@ -28,7 +28,7 @@ Est-ce que le plugin s’appuie sur des API tiers ?
 Non, le plugin est en connexion directe avec le Doorbird
 
 Est-ce qu’il est possible de récupérer le flux vidéo de Doorbird ?
-Oui , avec plugin Camera de Jeedom ou directement dans le plugin Doorbird V2.
+Oui , avec plugin Camera de Jeedom ou directement dans le plugin Doorbird V2 (attention uniquement en local).
 
 Il y a également un widget fourni par Doorbird accessible sur :
 
