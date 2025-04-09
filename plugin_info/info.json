@@ -1,11 +1,15 @@
 {
-	"id" : "doorbirdv2",
-	"name" : "Doorbird V2",
-	"licence" : "AGPL",
-	"author" : "vegeta0911",
-	"require" : "4.4",
-	"version": "2.9",
-	"category" : "security",
+    "id" : "doorbirdv2",
+    "name" : "Doorbird V2",
+    "licence" : "AGPL",
+    "author" : "vegeta0911",
+    "require" : "4.4",
+    "pluginVersion": "2.1",
+    "os" : {
+		"min" : 11,
+		"max" : ""
+    },
+    "category" : "security",
     "hasOwnDeamon": false,
     "hasDependency" : false,
     "maxDependancyInstallTime" : 0,
