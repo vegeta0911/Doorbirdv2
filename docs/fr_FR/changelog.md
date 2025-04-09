@@ -1,6 +1,11 @@
 S'il n'y a pas de date de changement majeur d'amélioration du plugin, Alors ce sont des mises à jour de document.
 ===
 
+mise à jour le 09/04/2025
+===
+- Rajouter des boutons d’action à chaque relais détecté.
+- Maintenant on peut modifier les noms des commandes.
+  
 mise à jour le 23/01/2025
 ===
 - Maintenant les informations supplémentaire (firmware etc..) du doorbird sont dans la page de configuration du plugin.
