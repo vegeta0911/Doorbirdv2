@@ -81,6 +81,7 @@ class doorbirdv2 extends eqLogic {
         } 
 
         $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'light');
+
         if (!is_object($cmd)) {
             $cmd = new doorbirdv2Cmd();
             $cmd->setLogicalId('light');
@@ -125,8 +126,9 @@ class doorbirdv2 extends eqLogic {
             $cmd->setConfiguration('url','open-door.cgi?r=2');
             $cmd->setEqLogic_id($this->getId());
             $cmd->save();
-        }*/
 
+        }*/
+      
         $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'doorbell');
         if (!is_object($cmd)) {
             $cmd = new doorbirdv2Cmd();

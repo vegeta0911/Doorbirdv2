@@ -138,7 +138,6 @@ $eqLogics = eqLogic::byType('doorbirdv2');
                 <input type="password" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="pass" placeholder="mot de passe"/>
               </div>
             </div>
-
             <div class="form-group">
               <label class="col-sm-3 control-label">{{Firmware}}</label>
                 <div class="col-sm-3">
