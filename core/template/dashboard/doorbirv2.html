@@ -56,13 +56,14 @@ function change_appel() {
         appel.style.display = 'block';
         appel.style.webkitUserSelect = 'none';
         appel.style.margin = 'auto';
+	appel.src = select.value;
         appel.style.cursor = 'zoom-in';
         appel.style.backgroundColor = 'hsl(0, 0%, 90%)';
         appel.style.transition = 'background-color 300ms';
         appel.width = 324;
         appel.height = 243;
         document.getElementById('imageappel').appendChild(appel);
-        jeedom.cmd.execute({id: cmds#id#[j].id, value: {select: appel.src = select.value}});
+        //jeedom.cmd.execute({id: cmds#id#[j].id, value: {select: appel.src = select.value}});
       } 
     }
   }
@@ -83,13 +84,14 @@ function change_move() {
         move.style.display = 'block';
         move.style.webkitUserSelect = 'none';
         move.style.margin = 'auto';
+	move.src = select.value;
         move.style.cursor = 'zoom-in';
         move.style.backgroundColor = 'hsl(0, 0%, 90%)';
         move.style.transition = 'background-color 300ms';
         move.width = 324;
         move.height = 243;
         document.getElementById('imagemov').appendChild(move);
-        jeedom.cmd.execute({id: cmds#id#[j].id, value: {select: move.src = select.value}});
+        //jeedom.cmd.execute({id: cmds#id#[j].id, value: {select: move.src = select.value}});
       } 
     }
   }
