@@ -1,0 +1,53 @@
+<div class="cmd cmd-widget" data-type="info" data-subtype="string" data-template="default" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#" style="height:#height#;width:#width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#; padding : 0px;">
+    <div class="title #hide_name#">
+        <div class="cmdName">#name_display#</div>
+    </div>
+    <div class="content">
+        <img id="imageappel" width="324" height="243"/>
+    </div>
+  <br/>
+  <div class="content-xs">
+    <select class="selectCmd" id="selectimage" style="height: 2em;">
+        <option value="plugins/doorbirdv2/data/Appel/appel1.png">Maintenant</option>
+        <option value="plugins/doorbirdv2/data/Appel/appel2.png">Avant</option>
+        <option value="plugins/doorbirdv2/data/Appel/appel3.png">Avant avant</option>
+        <option value="plugins/doorbirdv2/data/Appel/appel4.png">Avant avant avant</option>
+        <option value="plugins/doorbirdv2/data/Appel/appel5.png">Avant avant avant avant</option>
+    </select>
+  </div>
+    
+  <script>
+    jeedom.cmd.update['#id#'] = jeedom.eqLogic.getCmd({
+       id: '#eqLogic_id#',
+       async: false,
+       success: function (cmds#id#) {
+          var appel = cmds#id#
+          const selectElement = document.getElementById('selectimage');
+         
+          jeedom.cmd.addUpdateFunction('#id#', function (_options) {
+          
+            if (is_object(cmd = document.querySelector('.cmd[data-cmd_uid="#uid#"]'))) {
+                cmd.querySelector('.content').setAttribute('title', '{{Date de valeur}}: ' + _options.valueDate + '<br>{{Date de collecte}}: ' + _options.collectDate)
+                
+                if ('#time#' == 'duration' || '#time#' == 'date') {
+                    jeedom.cmd.displayDuration(_options.valueDate, cmd.querySelector('.timeCmd'), '#time#')
+                }
+              
+                $("#selectimage").on('change', function () {
+                    jeedom.cmd.execute({id: cmds#id#[8].id, value: {select:  document.getElementById('imageappel').src = selectElement.value}});
+                })
+                
+                if (_options.value == '') {
+                    jeedom.cmd.execute({id: cmds#id#[8].id, value: {select:  cmd.querySelector('.content img').src = selectElement.value}});
+                } else {
+                    cmd.querySelector('.content img').src = 'plugins/doorbirdv2/data/no_image.png'
+                }
+
+            }
+        })
+        
+        jeedom.cmd.refreshValue([{ cmd_id: '#id#', value: '#value#', display_value: '#state#', valueDate: '#valueDate#', collectDate: '#collectDate#' }])
+      }
+    })
+  </script>
+</div>
