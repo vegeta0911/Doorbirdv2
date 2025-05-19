@@ -146,8 +146,7 @@ class doorbirdv2 extends eqLogic {
             $cmd->setLogicalId('dooropen');
             $cmd->setIsVisible(1);
             $cmd->setName(__('Porte', __FILE__));
-            $cmd->setOrder(2);
-            
+            $cmd->setOrder(2); 
         }
         $cmd->setType('info');
         $cmd->setSubType('binary');
@@ -160,66 +159,50 @@ class doorbirdv2 extends eqLogic {
         $cmd->setEqLogic_id($this->getId());
         $cmd->save();
   
-	    $cmd = $this->getCmd(null, 'path_url_live');
-		if (!is_object($cmd)) {
-			$cmd = new doorbirdv2Cmd();
-                        $cmd->setEqLogic_id($this->getId());
-		        $cmd->setLogicalId('path_url_live');
-			$cmd->setName(__('Camera Doorbird', __FILE__));
-                        $cmd->setOrder(1);
-			
-			}
-			$cmd->setType('info');
-			$cmd->setSubType('string');
-			$cmd->setEqLogic_id($this->getId());
-			$cmd->setIsVisible(1);
-			$cmd->save();
-
-            $cmd = $this->getCmd(null, 'imagemov');
-		if (!is_object($cmd)) {
-			$cmd = new doorbirdv2Cmd();
+	$cmd = $this->getCmd(null, 'path_url_live');
+	if (!is_object($cmd)) {
+	    $cmd = new doorbirdv2Cmd();
             $cmd->setEqLogic_id($this->getId());
-		        $cmd->setLogicalId('imagemov');
-		        $cmd->setName(__('Image Mouvements', __FILE__));
-                        $cmd->setOrder(13);
+	    $cmd->setLogicalId('path_url_live');
+	    $cmd->setName(__('Camera Doorbird', __FILE__));
+            $cmd->setOrder(1);
+	}
+	$cmd->setType('info');
+	$cmd->setSubType('string');
+	$cmd->setEqLogic_id($this->getId());
+	$cmd->setIsVisible(1);
+	$cmd->save();
+
+        $cmd = $this->getCmd(null, 'imagemov');
+	if (!is_object($cmd)) {
+	    $cmd = new doorbirdv2Cmd();
+            $cmd->setEqLogic_id($this->getId());
+	    $cmd->setLogicalId('imagemov');
+	    $cmd->setName(__('Image Mouvements', __FILE__));
+            $cmd->setOrder(13);		
+	}
+	$cmd->setType('info');
+	$cmd->setSubType('string');
+        $cmd->setTemplate('dashboard', 'doorbirv2::moveimage');
+	$cmd->setEqLogic_id($this->getId());
+	$cmd->setIsVisible(1);
+	$cmd->save();
 			
-			}
-			$cmd->setType('info');
-			$cmd->setSubType('string');
-			$cmd->setEqLogic_id($this->getId());
-			$cmd->setIsVisible(1);
-			$cmd->save();
-			
-            $cmd = $this->getCmd(null, 'imageappel');
-		if (!is_object($cmd)) {
-			$cmd = new doorbirdv2Cmd();
-                        $cmd->setEqLogic_id($this->getId());
-		        $cmd->setLogicalId('imageappel');
-			$cmd->setName(__('Image Appel', __FILE__));
-                        $cmd->setOrder(14);
-			
-			}
-			$cmd->setType('info');
-			$cmd->setSubType('string');
-			$cmd->setEqLogic_id($this->getId());
-			$cmd->setIsVisible(1);
-			$cmd->save();
+        $cmd = $this->getCmd(null, 'imageappel');
+	if (!is_object($cmd)) {
+	    $cmd = new doorbirdv2Cmd();
+            $cmd->setEqLogic_id($this->getId());
+	    $cmd->setLogicalId('imageappel');
+	    $cmd->setName(__('Image Appel', __FILE__));
+            $cmd->setOrder(14);
+	}
+	$cmd->setType('info');
+	$cmd->setSubType('string');
+        $cmd->setTemplate('dashboard', 'doorbirv2::appelimage');
+	$cmd->setEqLogic_id($this->getId());
+	$cmd->setIsVisible(1);
+	$cmd->save();
       
-      
-            $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'btappl');
-        if (!is_object($cmd)) {
-            $cmd = new doorbirdv2Cmd();
-            $cmd->setLogicalId('btappl');
-            $cmd->setIsVisible(1);
-            $cmd->setName(__('Liste appel', __FILE__));
-            $cmd->setOrder(7);
-        }
-        $cmd->setType('action');
-        $cmd->setSubType('select');
-        $cmd->setTemplate('dashboard', 'doorbirv2::doorbirdv2Select');
-        $cmd->setEqLogic_id($this->getId());
-        $cmd->save();
-        
         $url = network::getNetworkAccess('internal') . '/plugins/doorbirdv2/core/api/jeeDoorbirdv2.php?apikey=' . jeedom::getApiKey('doorbirdv2') . '%26id=' . $this->getId() . '%26sensor=';
         $this->callDoor('notification.cgi?reset=1');
         sleep(2);
@@ -373,27 +356,6 @@ class doorbirdv2 extends eqLogic {
                 }
     }
     
-    public function toHtml($_version = 'dashboard') {
-       if ($this->getIsEnable() != 1) {
-            return '';
-        }
-    
-       $replace = $this->preToHtml($_version);
-		if (!is_array($replace)) {
-			return $replace;
-		}
-		$_version = jeedom::versionAlias($_version);
-        
-        foreach ($this->getCmd('info') as $cmd) {
-	        $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
-	        $replace['#' . $cmd->getLogicalId() . '_name#'] = $cmd->getName();
-	        $replace['#' . $cmd->getLogicalId() . '#'] = $this->getCmd(null, $cmd->getLogicalId())->toHtml();
-	        $replace['#' . $cmd->getLogicalId() . '_visible#'] = $cmd->getIsVisible();
-        }
-
-        return template_replace($replace, getTemplate('core', $_version, 'doorbirv2', 'doorbirdv2'));      
-    }
-   
     public function postRemove() {
         $this->callDoor('notification.cgi?reset=1');
     }
@@ -407,7 +369,6 @@ class doorbirdv2 extends eqLogic {
         $request_http->setHeader(array("Authorization: Basic $auth"));
         $retour = json_decode($request_http->exec(30),true);
     
-        log::add('doorbirdv2', 'debug', 'Appel : ' . $_uri . ', Retour : ' . json_encode($retour),true);
         return $retour;
       
     }
@@ -416,12 +377,13 @@ class doorbirdv2 extends eqLogic {
 
 class doorbirdv2Cmd extends cmd {
     public function execute($_options = null) {
-        if ($this->getType() == 'action') {
+        if ($this->getType() == 'action' && $this->getName() != 'Liste appel') {
             $eqLogic = $this->getEqLogic();
             $eqLogic->callDoor($this->getConfiguration('url'));
         }
         return true;
+        
+        
     }
 }
-
 ?>
