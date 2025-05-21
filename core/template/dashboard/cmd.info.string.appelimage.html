@@ -23,24 +23,31 @@
        id: '#eqLogic_id#',
        async: false,
        success: function (cmds#id#) {
-          var appel = cmds#id#
           const selectElement = document.getElementById('selectimage');
          
           jeedom.cmd.addUpdateFunction('#id#', function (_options) {
           
             if (is_object(cmd = document.querySelector('.cmd[data-cmd_uid="#uid#"]'))) {
-                cmd.querySelector('.content').setAttribute('title', '{{Date de valeur}}: ' + _options.valueDate + '<br>{{Date de collecte}}: ' + _options.collectDate)
+               /* cmd.querySelector('.content').setAttribute('title', '{{Date de valeur}}: ' + _options.valueDate + '<br>{{Date de collecte}}: ' + _options.collectDate)
                 
                 if ('#time#' == 'duration' || '#time#' == 'date') {
                     jeedom.cmd.displayDuration(_options.valueDate, cmd.querySelector('.timeCmd'), '#time#')
-                }
+                }*/
               
                 $("#selectimage").on('change', function () {
-                    jeedom.cmd.execute({id: cmds#id#[8].id, value: {select:  document.getElementById('imageappel').src = selectElement.value}});
+                   for (j in cmds#id#) {
+                    if(cmds#id#[j].logicalId == 'imageappel'){
+                    jeedom.cmd.execute({id: cmds#id#[j].id, value: {select:  document.getElementById('imageappel').src = selectElement.value  + '?t=' + new Date().getTime()}});
+                   }
+                 }
                 })
                 
                 if (_options.value == '') {
-                    jeedom.cmd.execute({id: cmds#id#[8].id, value: {select:  cmd.querySelector('.content img').src = selectElement.value}});
+                   for (j in cmds#id#) {
+                     if(cmds#id#[j].logicalId == 'imageappel'){
+                       jeedom.cmd.execute({id: cmds#id#[j].id, value: {select:  cmd.querySelector('.content img').src = selectElement.value + '?t=' + new Date().getTime()}});
+                   }
+                 }
                 } else {
                     cmd.querySelector('.content img').src = 'plugins/doorbirdv2/data/no_image.png'
                 }
