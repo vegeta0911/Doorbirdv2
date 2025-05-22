@@ -33,14 +33,13 @@
                     jeedom.cmd.execute({id: cmds#id#[j].id, value: {select:  document.getElementById('imagemove').src = selectElement.value  + '?t=' + new Date().getTime()}});
                    }
                  }
+               })
                    for (j in cmds#id#) {
                      if(cmds#id#[j].logicalId == 'imagemov'){
                        jeedom.cmd.execute({id: cmds#id#[j].id, value: {select:  cmd.querySelector('.content img').src = selectElement.value + '?t=' + new Date().getTime()}});
                    }
                  }
-            }
-        })
-        
+               }
         jeedom.cmd.refreshValue([{ cmd_id: '#id#', value: '#value#', display_value: '#state#', valueDate: '#valueDate#', collectDate: '#collectDate#' }])
       }
     })
