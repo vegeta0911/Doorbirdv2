@@ -1,4 +1,9 @@
 <div class="cmd cmd-widget" data-type="info" data-subtype="string" data-template="default" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#" style="height:#height#;width:#width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#; padding : 0px;">
+
+       <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+  
     <br/>
     <div class="title #hide_name#">
         <div class="cmdName">#name_display#</div>
@@ -8,13 +13,7 @@
     </div>
   <br/>
   <div class="content-xs">
-    <select class="selectCmd" id="selectimage" style="height: 2em;">
-        <option value="plugins/doorbirdv2/data/Appel/appel1.png">Maintenant</option>
-        <option value="plugins/doorbirdv2/data/Appel/appel2.png">Avant</option>
-        <option value="plugins/doorbirdv2/data/Appel/appel3.png">Avant avant</option>
-        <option value="plugins/doorbirdv2/data/Appel/appel4.png">Avant avant avant</option>
-        <option value="plugins/doorbirdv2/data/Appel/appel5.png">Avant avant avant avant</option>
-    </select>
+    <select class="selectCmd" id="selectimage" style="height: 2em;"></select>
     <br/>
   </div>
     
@@ -23,9 +22,32 @@
        id: '#eqLogic_id#',
        async: false,
        success: function (cmds#id#) {
+
           const selectElement = document.getElementById('selectimage');
-           
+        
+            // Charger le fichier JSON
+fetch('/plugins/doorbirdv2/data/countAppel.php')
+  .then(response => response.json())
+  .then(data => {
+   for (let i = 1; i <= data.count; i++) {
+            const option = document.createElement('option');
+            option.value = `plugins/doorbirdv2/data/Appel/appel${i}.png`; 
+            option.textContent = `Sonnette (${i})`; 
+            selectElement.appendChild(option);
+        }
+        // Exemple : Gestionnaire d'événement pour afficher la sélection
+        selectElement.addEventListener('change', () => {
+            const selectedValue = selectElement.value;
+        });
+         // jeedom.cmd.addUpdateFunction('#id#', function (_options) {
+          
             if (is_object(cmd = document.querySelector('.cmd[data-cmd_uid="#uid#"]'))) {
+               /* cmd.querySelector('.content').setAttribute('title', '{{Date de valeur}}: ' + _options.valueDate + '<br>{{Date de collecte}}: ' + _options.collectDate)
+                
+                if ('#time#' == 'duration' || '#time#' == 'date') {
+                    jeedom.cmd.displayDuration(_options.valueDate, cmd.querySelector('.timeCmd'), '#time#')
+                }*/
+              
                 $("#selectimage").on('change', function () {
                    for (j in cmds#id#) {
                     if(cmds#id#[j].logicalId == 'imageappel'){
@@ -34,14 +56,26 @@
                  }
                 })
                 
-              
+                //if (_options.value == '') {
                    for (j in cmds#id#) {
                      if(cmds#id#[j].logicalId == 'imageappel'){
                        jeedom.cmd.execute({id: cmds#id#[j].id, value: {select:  cmd.querySelector('.content img').src = selectElement.value + '?t=' + new Date().getTime()}});
                    }
                  }
+                /*} else {
+                    cmd.querySelector('.content img').src = 'plugins/doorbirdv2/data/no_image.png'
+                }*/
+
             }
+       // })
+        
         jeedom.cmd.refreshValue([{ cmd_id: '#id#', value: '#value#', display_value: '#state#', valueDate: '#valueDate#', collectDate: '#collectDate#' }])
+  })
+  
+          
+          
+
+        
       }
     })
   </script>
