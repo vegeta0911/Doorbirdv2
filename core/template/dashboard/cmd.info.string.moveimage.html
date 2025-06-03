@@ -8,13 +8,7 @@
     </div>
   <br/>
   <div class="content-xs">
-    <select class="selectCmd" id="selectmove" style="height: 2em;">
-        <option value="plugins/doorbirdv2/data/Move/mov1.png">Maintenant</option>
-        <option value="plugins/doorbirdv2/data/Move/mov2.png">Avant</option>
-        <option value="plugins/doorbirdv2/data/Move/mov3.png">Avant avant</option>
-        <option value="plugins/doorbirdv2/data/Move/mov4.png">Avant avant avant</option>
-        <option value="plugins/doorbirdv2/data/Move/mov5.png">Avant avant avant avant</option>
-    </select>
+    <select class="selectCmd" id="selectmove" style="height: 2em;"></select>
     <br/>
   </div>
     
@@ -24,23 +18,52 @@
        async: false,
        success: function (cmds#id#) {
           const selectElement = document.getElementById('selectmove');
+         
+                    // Charger le fichier JSON
+fetch('/plugins/doorbirdv2/data/countMove.php')
+  .then(response => response.json())
+  .then(data => {
+   for (let i = 1; i <= data.count; i++) {
+            const option = document.createElement('option');
+            option.value = `plugins/doorbirdv2/data/Move/mov${i}.png`; 
+            option.textContent = `Mouvement (${i})`; 
+            selectElement.appendChild(option);
+        }
+        // Exemple : Gestionnaire d'événement pour afficher la sélection
+        selectElement.addEventListener('change', () => {
+            const selectedValue = selectElement.value;
+        });
           
             if (is_object(cmd = document.querySelector('.cmd[data-cmd_uid="#uid#"]'))) {
+                //cmd.querySelector('.content').setAttribute('title', '{{Date de valeur}}: ' + _options.valueDate + '<br>{{Date de collecte}}: ' + _options.collectDate)
                 
+                /*if ('#time#' == 'duration' || '#time#' == 'date') {
+                    jeedom.cmd.displayDuration(_options.valueDate, cmd.querySelector('.timeCmd'), '#time#')
+                }*/
+              
                 $("#selectmove").on('change', function () {
                    for (j in cmds#id#) {
                     if(cmds#id#[j].logicalId == 'imagemov'){
                     jeedom.cmd.execute({id: cmds#id#[j].id, value: {select:  document.getElementById('imagemove').src = selectElement.value  + '?t=' + new Date().getTime()}});
                    }
                  }
-               })
+                })
+                
+                //if (_options.value == '') {
                    for (j in cmds#id#) {
                      if(cmds#id#[j].logicalId == 'imagemov'){
                        jeedom.cmd.execute({id: cmds#id#[j].id, value: {select:  cmd.querySelector('.content img').src = selectElement.value + '?t=' + new Date().getTime()}});
                    }
                  }
-               }
+                /*} else {
+                    cmd.querySelector('.content img').src = 'plugins/doorbirdv2/data/no_image.png'
+                }*/
+
+            }
+       // })
+        
         jeedom.cmd.refreshValue([{ cmd_id: '#id#', value: '#value#', display_value: '#state#', valueDate: '#valueDate#', collectDate: '#collectDate#' }])
+    })
       }
     })
   </script>
