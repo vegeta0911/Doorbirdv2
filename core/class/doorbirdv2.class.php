@@ -248,9 +248,9 @@ class doorbirdv2 extends eqLogic {
 	if (!is_object($cmd)) {
 	    $cmd = new doorbirdv2Cmd();
         $cmd->setEqLogic_id($this->getId());
-	    $cmd->setLogicalId('path_url_live');
-	    $cmd->setName(__('Camera Doorbird', __FILE__));
-        cmd->setOrder(1);
+	$cmd->setLogicalId('path_url_live');
+	$cmd->setName(__('Camera Doorbird', __FILE__));
+        $cmd->setOrder(1);
 	}
 	$cmd->setType('info');
 	$cmd->setSubType('string');
