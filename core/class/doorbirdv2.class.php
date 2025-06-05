@@ -321,7 +321,7 @@ class doorbirdv2 extends eqLogic {
             $api3 = substr($api1[3], 2, 61);
         }
           log::add('doorbirdv2', 'debug', 'Camera SESSIONID : ' . $api3 . ' avec ' . $user . ':' . $pass);
-          //doorbirdv2::doorcam($api3,$addr);  
+          doorbirdv2::doorcam($api3,$addr);  
           $json_data = file_put_contents(dirname(__FILE__) . '/../../core/api/api.json', json_encode($api3, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
           
           
@@ -347,7 +347,7 @@ class doorbirdv2 extends eqLogic {
     public static function doorcam($api,$ip) {
        foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
             $urlLive = 'http://' . $ip . '/bha-api/video.cgi?sessionid='.$api;
-            $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$urlLive . ' width="324" height="243">';
+            $form = '<img style="display: block; margin: auto; cursor: zoom-in; max-width: 88%; height: auto;" src='.$urlLive . '>';
             
             log::add('doorbirdv2', 'debug', 'Camera api : ' . $api . ' avec ' . $urlLive);
             $eqLogic->checkAndUpdateCmd('path_url_live', $form);
