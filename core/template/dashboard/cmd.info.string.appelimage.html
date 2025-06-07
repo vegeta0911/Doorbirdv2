@@ -9,7 +9,7 @@
         <div class="cmdName">#name_display#</div>
     </div>
     <div class="content">
-        <img id="imageappel" style="cursor: zoom-in; max-width: 88%; height: auto;"/>
+        <img id="imageappel" style="display: block; -webkit-user-select: none; margin: auto; background-color: hsl(0, 0%, 90%);transition: background-color 300ms; cursor: zoom-in; max-width: 88%; height: auto;"/>
     </div>
   <br/>
   <div class="content-xs">
@@ -20,7 +20,7 @@
   <script>
 $('#imageappel').on('click', function () {
   var imageSrc = $(this).attr('src');
-  var htmlContent = '<img src="' + imageSrc + '" style="display: block; -webkit-user-select: none; margin: auto; background-color: hsl(0, 0%, 90%);transition: background-color 300ms; cursor: zoom-in; max-width: 88%; height: auto;">'; 
+  var htmlContent = '<img src="' + imageSrc + '" '<img src="' + imageSrc + '"  style="display: block; margin: auto; width: 100%; height:100%;">';
   
   var maxWidth = $(window).width() * 0.8;
   var maxHeight = $(window).height() * 0.8;
