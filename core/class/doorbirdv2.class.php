@@ -21,89 +21,6 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class doorbirdv2 extends eqLogic {
   
-    public static function deamon_info() {
-		$return = array();
-		$return['log'] = '';
-		$return['state'] = 'nok';
-		$cron = cron::byClassAndFunction('doorbirdv2', 'pull');
-		if (is_object($cron) && $cron->running()) {
-			$return['state'] = 'ok';
-		}
-		$return['launchable'] = 'ok';
-		return $return;
-	}
-
-	public static function deamon_start() {
-		self::deamon_stop();
-		$deamon_info = self::deamon_info();
-		if ($deamon_info['launchable'] != 'ok') {
-			throw new Exception(__('Veuillez vérifier la configuration', __FILE__));
-		}
-		$cron = cron::byClassAndFunction('doorbirdv2', 'pull');
-		if (!is_object($cron)) {
-			throw new Exception(__('Tache cron introuvable', __FILE__));
-		}
-		$cron->run();
-	}
-
-	public static function deamon_stop() {
-		$cron = cron::byClassAndFunction('doorbirdv2', 'pull');
-		if (!is_object($cron)) {
-			throw new Exception(__('Tache cron introuvable', __FILE__));
-		}
-		$cron->halt();
-	}
-
-	public static function pull() {
-        
-        $api = file_get_contents(dirname(__FILE__) . '/../../core/api/api.json');
-        $json_api = json_decode($api, true);
-        foreach (eqLogic::getCmd('doorbirdv2', true) as $eqLogic) {
-          
-            $urlLive = 'http://' . $eqLogic->getConfiguration('addr') . '/bha-api/image.cgi?sessionid='.$json_api;
-            $img = dirname(__FILE__) . '/../../data/Camera/api.png';
-            $accesimg = '/plugins/doorbirdv2/data/Camera/api.png';
-            	log::add('doorbirdv2', 'error', 'snapshot: '.print_r($cmd,true));
-            file_put_contents($img, file_get_contents($urlLive));
-            $ch = curl_init($urlLive);
-            $fp = fopen($img, 'wb');
-            curl_setopt($ch, CURLOPT_FILE, $fp);
-            curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_exec($ch);
-            fclose($fp);
-            $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='. $accesimg.' width="324" height="243">';
-            $eqLogic->checkAndUpdateCmd('path_url_live', $form);
-            foreach (cmd::searchConfigurationEqLogic($eqLogic->getId(),'path_url_live') as $cmd) {
-			
-					$cmd->refresh();
-				
-			}
-            
-            //log::add('doorbirdv2', 'debug', 'Daemon Camera api : ' . $api . ' avec ' . $urlLive);
-            
-            //$eqLogic->refreshWidget();
-        }
-		/*if (self::$_eqLogics == null) {
-			self::$_eqLogics = self::byType('doorbirdv2');
-		}
-		foreach (self::$_eqLogics as $eqLogic) {
-			$php_file = dirname(__FILE__) . '/../config/devices/' . $eqLogic->getConfiguration('hasPullFunction', 0);
-			if ($eqLogic->getIsEnable() == 0 || !file_exists($php_file)) {
-				continue;
-			}
-			try {
-				require_once $php_file;
-				$function = str_replace('.', '_', $eqLogic->getConfiguration('device')) . '_update';
-				if (function_exists($function)) {
-					$function($eqLogic);
-				}
-			} catch (Exception $e) {
-			}
-		}*/
-       // log::add('doorbirdv2', 'error', 'Merci de configurer un n\'équipement');
-	}
-  
-    
     public static function cron10(){
      $eqLogics = eqLogic::byType('doorbirdv2', true);
       if($eqLogics[0] == ''){
@@ -115,7 +32,6 @@ class doorbirdv2 extends eqLogic {
       }
     }
     public static function cron(){
-        //doorbirdv2::getUrl();
         doorbirdv2::doorcamov();
         doorbirdv2::doorappel();
         
@@ -257,7 +173,7 @@ class doorbirdv2 extends eqLogic {
 	$cmd->setEqLogic_id($this->getId());
 	$cmd->setIsVisible(1);
 	$cmd->save();
-    //$cmd->event($this->getUrl(/*$this->getConfiguration('urlStream'), true*/));
+    
 
         $cmd = $this->getCmd(null, 'imagemov');
 	if (!is_object($cmd)) {
@@ -322,27 +238,7 @@ class doorbirdv2 extends eqLogic {
         }
           log::add('doorbirdv2', 'debug', 'Camera SESSIONID : ' . $api3 . ' avec ' . $user . ':' . $pass);
           doorbirdv2::doorcam($api3,$addr);  
-          $json_data = file_put_contents(dirname(__FILE__) . '/../../core/api/api.json', json_encode($api3, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-          
-          
     } 
-    
-   /* public static function getUrl($_complement = '', $_flux = true) {
-      foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
-		$replace = array(
-			'#username#' => urlencode($eqLogic->getConfiguration('user')),
-			'#password#' => urlencode($eqLogic->getConfiguration('pass')),
-		);
-        
-      }
-      if ($_flux) {
-            $return = 'plugins/doorbirdv2/core/php/snapshot.php?id=' . $eqLogic->getId() . '&apikey=' . $eqLogic->getConfiguration('localApiKey');
-        log::add('doorbirdv2', 'error', print_r($return,true));
-			return $return;
-        
-		}
-       // 
-    }*/
   
     public static function doorcam($api,$ip) {
        foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
@@ -359,7 +255,6 @@ class doorbirdv2 extends eqLogic {
         foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
           $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&index=1';
         
-            //log::add('doorbirdv2', 'info', 'Vérif lien :' .print_r(file_put_contents($img, file_get_contents($urlLive)),true) );
             if (!file_exists(dirname(__FILE__) . '/../../data/Appel')) {
 	            mkdir(dirname(__FILE__) . '/../../data/Appel', 0777, true);
 	        }
@@ -454,14 +349,11 @@ class doorbirdv2 extends eqLogic {
         curl_close($ch);
         };
 
-        
-        // Génération de l'URL
         $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) 
                  . '/bha-api/history.cgi?http-user=' . trim($eqLogic->getConfiguration('user')) 
                  . '&http-password=' . trim($eqLogic->getConfiguration('pass')) 
                  . '&index=' . $index;
 
-        // Vérification de la taille du fichier
         $fileSize = $getFileSize($urlLive);
         if ($fileSize === false) {
            log::add('doorbirdv2', 'debug', 'Impossible de déterminer la taille du fichier à l URL : '.$urlLive);
@@ -473,7 +365,6 @@ class doorbirdv2 extends eqLogic {
             break;
         }
 
-        // Téléchargement du fichier
         $savePath = $outputDir . 'appel'.$index.'.png';
         log::add('doorbirdv2', 'debug', 'Téléchargement du fichier depuis '. $urlLive .' (taille = '. $fileSize .'bytes)...');
         $downloadFile($urlLive, $savePath);
@@ -492,6 +383,7 @@ class doorbirdv2 extends eqLogic {
                     $e->getMessage();
             }
     }
+	
     public static function doorcamov() {
         foreach (eqLogic::byType('doorbirdv2', true) as $eqLogic) {
           $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&event=motionsensor&index=1';
@@ -505,7 +397,6 @@ class doorbirdv2 extends eqLogic {
                 if(get_http_response_move($urlLive) != "200"){
                     $accesimg = 'plugins/doorbirdv2/data/no_image.png';
                     $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
-                    //log::add('doorbirdv2', 'info', 'ImageMov pas d&apos;image trouvé : '. $urlLive);
                     $eqLogic->checkAndUpdateCmd('imagemov', $form);
                     $eqLogic->refreshWidget();
                      
@@ -539,8 +430,6 @@ class doorbirdv2 extends eqLogic {
                 unlink($fichier);
             }
         }
-
-
         $getFileSize = function ($url) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_NOBODY, true);
@@ -586,13 +475,11 @@ class doorbirdv2 extends eqLogic {
         curl_close($ch);
         };
 
-        // Génération de l'URL
         $urlLive = 'http://' . trim($eqLogic->getConfiguration('addr')) 
                  . '/bha-api/history.cgi?http-user=' . trim($eqLogic->getConfiguration('user')) 
                  . '&http-password=' . trim($eqLogic->getConfiguration('pass')) 
                  . '&event=motionsensor&index=' . $index;
 
-        // Vérification de la taille du fichier
         $fileSize = $getFileSize($urlLive);
         if ($fileSize === false) {
            log::add('doorbirdv2', 'debug', 'Impossible de déterminer la taille du fichier à l URL : '.$urlLive);
@@ -604,7 +491,6 @@ class doorbirdv2 extends eqLogic {
              break;
         }
 
-        // Téléchargement du fichier
         $savePath = $outputDir . 'mov'.$index.'.png';
         log::add('doorbirdv2', 'debug', 'Téléchargement du fichier depuis '. $urlLive .' (taille = '. $fileSize .'bytes)...');
         $downloadFile($urlLive, $savePath);
