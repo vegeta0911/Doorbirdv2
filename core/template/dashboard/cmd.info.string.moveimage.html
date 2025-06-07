@@ -15,13 +15,11 @@
   <script>
 $('#imagemove').on('click', function () {
   var imageSrc = $(this).attr('src');
-  var htmlContent = '<img src="' + imageSrc + '" style="display: block; margin: auto; width: 100%; height:100%;">'; //max-width: 100em; height: 80em;
-  
+  var htmlContent = '<img src="' + imageSrc + '" style="display: block; -webkit-user-select: none; margin: auto; background-color: hsl(0, 0%, 90%);transition: background-color 300ms; cursor: zoom-in; max-width: 88%; height: auto;">';
   var maxWidth = $(window).width() * 0.8;
   var maxHeight = $(window).height() * 0.8;
   
-  $('#md_modal').dialog({ title: "Agrandissement de l'image",
-                          
+  $('#md_modal').dialog({ title: "Agrandissement de l'image",              
     width: maxWidth,
     height: maxHeight,
     modal: true,
@@ -34,7 +32,6 @@ $('#imagemove').on('click', function () {
        success: function (cmds#id#) {
           const selectElement = document.getElementById('selectmove');
          
-                    // Charger le fichier JSON
 fetch('/plugins/doorbirdv2/data/countMove.php')
   .then(response => response.json())
   .then(data => {
@@ -44,18 +41,13 @@ fetch('/plugins/doorbirdv2/data/countMove.php')
             option.textContent = `Mouvement (${i})`; 
             selectElement.appendChild(option);
         }
-        // Exemple : Gestionnaire d'événement pour afficher la sélection
+  
         selectElement.addEventListener('change', () => {
             const selectedValue = selectElement.value;
         });
           
             if (is_object(cmd = document.querySelector('.cmd[data-cmd_uid="#uid#"]'))) {
-                //cmd.querySelector('.content').setAttribute('title', '{{Date de valeur}}: ' + _options.valueDate + '<br>{{Date de collecte}}: ' + _options.collectDate)
                 
-                /*if ('#time#' == 'duration' || '#time#' == 'date') {
-                    jeedom.cmd.displayDuration(_options.valueDate, cmd.querySelector('.timeCmd'), '#time#')
-                }*/
-              
                 $("#selectmove").on('change', function () {
                    for (j in cmds#id#) {
                     if(cmds#id#[j].logicalId == 'imagemov'){
@@ -63,20 +55,12 @@ fetch('/plugins/doorbirdv2/data/countMove.php')
                    }
                  }
                 })
-                
-                //if (_options.value == '') {
                    for (j in cmds#id#) {
                      if(cmds#id#[j].logicalId == 'imagemov'){
                        jeedom.cmd.execute({id: cmds#id#[j].id, value: {select:  cmd.querySelector('.content img').src = selectElement.value + '?t=' + new Date().getTime()}});
                    }
                  }
-                /*} else {
-                    cmd.querySelector('.content img').src = 'plugins/doorbirdv2/data/no_image.png'
-                }*/
-
             }
-       // })
-        
         jeedom.cmd.refreshValue([{ cmd_id: '#id#', value: '#value#', display_value: '#state#', valueDate: '#valueDate#', collectDate: '#collectDate#' }])
     })
       }
