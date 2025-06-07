@@ -50,18 +50,12 @@ fetch('/plugins/doorbirdv2/data/countAppel.php')
             option.textContent = `Sonnette (${i})`; 
             selectElement.appendChild(option);
         }
-        // Exemple : Gestionnaire d'événement pour afficher la sélection
+       
         selectElement.addEventListener('change', () => {
             const selectedValue = selectElement.value;
         });
-         // jeedom.cmd.addUpdateFunction('#id#', function (_options) {
-          
+        
             if (is_object(cmd = document.querySelector('.cmd[data-cmd_uid="#uid#"]'))) {
-               /* cmd.querySelector('.content').setAttribute('title', '{{Date de valeur}}: ' + _options.valueDate + '<br>{{Date de collecte}}: ' + _options.collectDate)
-                
-                if ('#time#' == 'duration' || '#time#' == 'date') {
-                    jeedom.cmd.displayDuration(_options.valueDate, cmd.querySelector('.timeCmd'), '#time#')
-                }*/
               
                 $("#selectimage").on('change', function () {
                    for (j in cmds#id#) {
@@ -70,27 +64,14 @@ fetch('/plugins/doorbirdv2/data/countAppel.php')
                    }
                  }
                 })
-                
-                //if (_options.value == '') {
                    for (j in cmds#id#) {
                      if(cmds#id#[j].logicalId == 'imageappel'){
                        jeedom.cmd.execute({id: cmds#id#[j].id, value: {select:  cmd.querySelector('.content img').src = selectElement.value + '?t=' + new Date().getTime()}});
                    }
                  }
-                /*} else {
-                    cmd.querySelector('.content img').src = 'plugins/doorbirdv2/data/no_image.png'
-                }*/
-
             }
-       // })
-        
         jeedom.cmd.refreshValue([{ cmd_id: '#id#', value: '#value#', display_value: '#state#', valueDate: '#valueDate#', collectDate: '#collectDate#' }])
   })
-  
-          
-          
-
-        
       }
     })
   </script>
