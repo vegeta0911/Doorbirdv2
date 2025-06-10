@@ -9,17 +9,20 @@
         <div class="cmdName">#name_display#</div>
     </div>
     <div class="content">
-        <img id="imageappel" style="display: block; -webkit-user-select: none; margin: auto; background-color: hsl(0, 0%, 90%);transition: background-color 300ms; cursor: zoom-in; max-width: 88%; height: auto;"/>
+        <img id="imageappel" style="display: block; -webkit-user-select: none; margin: auto; background-color: hsl(0, 0%, 90%);transition: background-color 300ms; max-width: 88%; height: auto;"/>
     </div>
   <br/>
-  <div class="content-xs">
-    <select class="selectCmd" id="selectimage" style="height: 2em;"></select>
-    <br/>
+  <div class="input-group" style="display: flex; align-items: center;">
+  <select class="selectCmd" id="selectimage" style="height: 2em;"></select>
+  <a class="btn btn-default" id="btn_image" style="height: 2em; display: flex; align-items: center; justify-content: center;">
+    <i class="fas fa-eye"></i>
+  </a>
+</div>
   </div>
-    
+  
   <script>
-$('#imageappel').on('click', function () {
-  var imageSrc = $(this).attr('src');
+$('#btn_image').on('click', function () {
+  var imageSrc = $('#imageappel').attr('src');
   var htmlContent = '<img src="' + imageSrc + '"  style="display: block; margin: auto; width: 100%; height:100%;">';
   
   var maxWidth = $(window).width() * 0.8;
@@ -75,4 +78,4 @@ fetch('/plugins/doorbirdv2/data/countAppel.php')
       }
     })
   </script>
-</div>
+
