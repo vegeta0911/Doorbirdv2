@@ -272,7 +272,9 @@ class doorbirdv2 extends eqLogic {
                 curl_setopt($ch, CURLOPT_HEADER, false);
                 curl_exec($ch);
                 fclose($fp);
-               
+                $form = '<img style="display: block; margin: auto; cursor: zoom-in; max-width: 88%; height: auto;" src='.$accesimg . '>';
+		$eqLogic->checkAndUpdateCmd('imageappel', $form);
+                $eqLogic->refreshWidget();
                 log::add('doorbirdv2', 'debug', 'doorappel : '. $urlLive);
                 }
          }   
@@ -401,9 +403,10 @@ class doorbirdv2 extends eqLogic {
                 curl_setopt($ch, CURLOPT_HEADER, false);
                 curl_exec($ch);
                 fclose($fp);
-               
+                $form = '<img style="display: block; margin: auto; cursor: zoom-in; max-width: 88%; height: auto;" src='.$accesimg . '>';
+		$eqLogic->checkAndUpdateCmd('imagemov', $form);
+                $eqLogic->refreshWidget();
                 log::add('doorbirdv2', 'debug', 'ImageMov api : '. $urlLive);
-                $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
                 }
         }
     }
