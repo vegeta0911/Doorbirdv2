@@ -70,7 +70,6 @@ class doorbirdv2 extends eqLogic {
 
     
         while ($index < count($data)) {
-	  if($this->getId() != 'door'.$data[$index]) {
             $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'door'.$data[$index]);
             if (!is_object($cmd)) {
                 $cmd = new doorbirdv2Cmd();
@@ -83,7 +82,6 @@ class doorbirdv2 extends eqLogic {
             $cmd->setConfiguration('url','open-door.cgi?r='.$data[$index]);
             $cmd->setEqLogic_id($this->getId());
             $cmd->save();
-	  }
             $index++;  // Passer à l'élément suivant
         } 
 
@@ -177,7 +175,7 @@ class doorbirdv2 extends eqLogic {
 	}
 	$cmd->setType('info');
 	$cmd->setSubType('string');
-        $cmd->setTemplate('dashboard', 'doorbirv2::moveimage');
+        //$cmd->setTemplate('dashboard', 'doorbirv2::moveimage');
 	$cmd->setEqLogic_id($this->getId());
 	$cmd->setIsVisible(1);
 	$cmd->save();
@@ -191,7 +189,7 @@ class doorbirdv2 extends eqLogic {
 	}
 	$cmd->setType('info');
 	$cmd->setSubType('string');
-        $cmd->setTemplate('dashboard', 'doorbirv2::appelimage');
+        //$cmd->setTemplate('dashboard', 'doorbirv2::appelimage');
 	$cmd->setEqLogic_id($this->getId());
 	$cmd->setIsVisible(1);
 	$cmd->save();
