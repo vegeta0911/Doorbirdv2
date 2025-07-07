@@ -37,8 +37,8 @@ class doorbirdv2 extends eqLogic {
         
     }
     public static function cron5(){
-        doorbirdv2::doorappel2();
-        doorbirdv2::doorcamov2();
+        //doorbirdv2::doorappel2();
+        //doorbirdv2::doorcamov2();
     }
     public function preUpdate() {
         if ($this->getConfiguration('addr') == '') {
@@ -68,21 +68,22 @@ class doorbirdv2 extends eqLogic {
 
        $index = 0;
 
+    
         while ($index < count($data)) {
-           
+	  if($this->getId() != 'door'.$data[$index]) {
             $cmd = doorbirdv2Cmd::byEqLogicIdAndLogicalId($this->getId(),'door'.$data[$index]);
             if (!is_object($cmd)) {
                 $cmd = new doorbirdv2Cmd();
                 $cmd->setLogicalId('door'.$data[$index]);
                 $cmd->setIsVisible(1);
                 $cmd->setName(__('Ouverture Porte '.$data[$index], __FILE__));
-                $cmd->setOrder(5);
             }
             $cmd->setType('action');
             $cmd->setSubType('other');
             $cmd->setConfiguration('url','open-door.cgi?r='.$data[$index]);
             $cmd->setEqLogic_id($this->getId());
             $cmd->save();
+	  }
             $index++;  // Passer à l'élément suivant
         } 
 
@@ -92,8 +93,6 @@ class doorbirdv2 extends eqLogic {
             $cmd->setLogicalId('light');
             $cmd->setIsVisible(1);
             $cmd->setName(__('Lumière', __FILE__));
-            $cmd->setOrder(7);
-            
         }
         $cmd->setType('action');
         $cmd->setSubType('other');
@@ -107,8 +106,6 @@ class doorbirdv2 extends eqLogic {
             $cmd->setLogicalId('doorbell');
             $cmd->setIsVisible(1);
             $cmd->setName(__('Sonnerie', __FILE__));
-            $cmd->setOrder(4);
-            
         }
         $cmd->setType('info');
         $cmd->setSubType('binary');
@@ -127,8 +124,6 @@ class doorbirdv2 extends eqLogic {
             $cmd->setLogicalId('motion');
             $cmd->setIsVisible(1);
             $cmd->setName(__('Mouvement', __FILE__));
-            $cmd->setOrder(3);
-            
         }
         $cmd->setType('info');
         $cmd->setSubType('binary');
@@ -147,7 +142,6 @@ class doorbirdv2 extends eqLogic {
             $cmd->setLogicalId('dooropen');
             $cmd->setIsVisible(1);
             $cmd->setName(__('Porte', __FILE__));
-            $cmd->setOrder(2); 
         }
         $cmd->setType('info');
         $cmd->setSubType('binary');
@@ -166,7 +160,6 @@ class doorbirdv2 extends eqLogic {
         $cmd->setEqLogic_id($this->getId());
 	$cmd->setLogicalId('path_url_live');
 	$cmd->setName(__('Camera Doorbird', __FILE__));
-        $cmd->setOrder(1);
 	}
 	$cmd->setType('info');
 	$cmd->setSubType('string');
@@ -181,7 +174,6 @@ class doorbirdv2 extends eqLogic {
             $cmd->setEqLogic_id($this->getId());
 	    $cmd->setLogicalId('imagemov');
 	    $cmd->setName(__('Image Mouvements', __FILE__));
-            $cmd->setOrder(13);		
 	}
 	$cmd->setType('info');
 	$cmd->setSubType('string');
@@ -196,7 +188,6 @@ class doorbirdv2 extends eqLogic {
             $cmd->setEqLogic_id($this->getId());
 	    $cmd->setLogicalId('imageappel');
 	    $cmd->setName(__('Image Appel', __FILE__));
-            $cmd->setOrder(14);
 	}
 	$cmd->setType('info');
 	$cmd->setSubType('string');
