@@ -267,10 +267,10 @@ public static function doorappel() {
         $host = $eqLogic->getConfiguration('addr');
         if (doorbirdv2::isHttpsAvailable($host)) {
             $https = "https://";
-            log::add('doorbirdv2', 'info', "HTTPS est disponible");;
+            //log::add('doorbirdv2', 'info', "HTTPS est disponible");;
         } else {
             $https = "http://";
-            log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
+            //log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
         }
 
         $urlLive = $https . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&index=1';
@@ -317,10 +317,10 @@ public static function doorcamov() {
         $host = $eqLogic->getConfiguration('addr');
         if (doorbirdv2::isHttpsAvailable($host)) {
             $https = "https://";
-            log::add('doorbirdv2', 'info', "HTTPS est disponible");;
+            //log::add('doorbirdv2', 'info', "HTTPS est disponible");;
         } else {
             $https = "http://";
-            log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
+            //log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
         }
         $urlLive = $https . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user='.trim($eqLogic->getConfiguration('user')).'&http-password='.trim($eqLogic->getConfiguration('pass')).'&event=motionsensor&index=1';
             if (!file_exists(dirname(__FILE__) . '/../../data/Move')) {
