@@ -284,9 +284,7 @@ public static function doorappel() {
                     return substr($headers[0], 9, 3);
                 }
                 if(get_http_response_appel($urlLive) != "200"){
-                    $accesimg = 'plugins/doorbirdv2/data/no_image.png';
-                    $destaccesimg = 'plugins/doorbirdv2/data/Appel/appel1png';
-                    copy($accesimg, $destaccesimg);
+                    $accesimg = '/plugins/doorbirdv2/data/no_image.png';
                     $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
                     $eqLogic->checkAndUpdateCmd('imageappel', $form);
                     $eqLogic->refreshWidget();
@@ -294,8 +292,8 @@ public static function doorappel() {
                 }
                 else
                 {
-                $img = '/var/www/html/plugins/doorbirdv2/data/Appel/appel1.png';
-                $accesimg = 'plugins/doorbirdv2/data/Appel/appel1.png';
+                $img = __DIR__.'/../../data/Appel/appel1.png';
+                $accesimg = '/plugins/doorbirdv2/data/Appel/appel1.png';
                 file_put_contents($img, file_get_contents($urlLive));
                 $ch = curl_init($urlLive);
                 $fp = fopen($img, 'wb');
@@ -331,7 +329,7 @@ public static function doorcamov() {
                     return substr($headers[0], 9, 3);
                 }
                 if(get_http_response_move($urlLive) != "200"){
-                    $accesimg = 'plugins/doorbirdv2/data/no_image.png';
+                    $accesimg = '/plugins/doorbirdv2/data/no_image.png';
                     $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
                     $eqLogic->checkAndUpdateCmd('imagemov', $form);
                     $eqLogic->refreshWidget();
@@ -339,8 +337,8 @@ public static function doorcamov() {
                 }
                 else
                 {
-                $img = '/var/www/html/plugins/doorbirdv2/data/Move/mov1.png';
-                $accesimg = 'plugins/doorbirdv2/data/Move/mov1.png';
+                $img = __DIR__.'/../../data/Move/mov1.png';
+                $accesimg = '/plugins/doorbirdv2/data/Move/mov1.png';
                 file_put_contents($img, file_get_contents($urlLive));
                 $ch = curl_init($urlLive);
                 $fp = fopen($img, 'wb');
