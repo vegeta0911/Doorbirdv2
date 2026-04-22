@@ -232,7 +232,7 @@ public static function apirl() {
         $host = $eqLogic->getConfiguration('addr');
         if (doorbirdv2::isHttpsAvailable($host)) {
             $https = "https://";
-            log::add('doorbirdv2', 'info', "HTTPS est disponible");;
+            log::add('doorbirdv2', 'info', "HTTPS est disponible");
         } else {
             $https = "http://";
             log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
@@ -267,7 +267,7 @@ public static function doorappel() {
         $host = $eqLogic->getConfiguration('addr');
         if (doorbirdv2::isHttpsAvailable($host)) {
             $https = "https://";
-            //log::add('doorbirdv2', 'info', "HTTPS est disponible");;
+            //log::add('doorbirdv2', 'info', "HTTPS est disponible");
         } else {
             $https = "http://";
             //log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
@@ -363,11 +363,20 @@ public function postRemove() {
         if ($this->getConfiguration('addr') == '') {
             exit;
         }
+        $host = doorbirdv2::getConfiguration('addr');
+        if (doorbirdv2::isHttpsAvailable($host)) {
+            $https = "https://";
+            //log::add('doorbirdv2', 'info', "HTTPS est disponible");
+        } else {
+            $https = "http://";
+            //log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
+        }
+      
         $auth = base64_encode(trim($this->getConfiguration('user')) . ':' . trim($this->getConfiguration('pass')));
-        $request_http = new com_http('https://' . trim($this->getConfiguration('addr')) . '/bha-api/' . $_uri);
+        $request_http = new com_http($https.trim($this->getConfiguration('addr')) . '/bha-api/' . $_uri);
         $request_http->setHeader(array("Authorization: Basic $auth"));
         $retour = json_decode($request_http->exec(30),true);
-    
+        log::add('doorbirdv2','debug', 'retour relais ' .$https . trim($this->getConfiguration('addr')) . '/bha-api/' . $_uri);
         return $retour;
       
     }
