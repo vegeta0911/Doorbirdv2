@@ -389,6 +389,7 @@ class doorbirdv2Cmd extends cmd {
             $eqLogic = $this->getEqLogic();
             $eqLogic->callDoor($this->getConfiguration('url'));
         }
+		log::add('doorbirdv2', 'debug', 'reponse relais '.print_r($eqLogic->callDoor($this->getConfiguration('url')),true));
         return true;
         
         
