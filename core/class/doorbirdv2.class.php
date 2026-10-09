@@ -288,7 +288,7 @@ public static function doorappel() {
                     $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
                     $eqLogic->checkAndUpdateCmd('imageappel', $form);
                     $eqLogic->refreshWidget();
-                    log::add('doorbirdv2', 'debug', 'ImageAppel pas d&apos;image trouvé : '. $urlLive );
+                    log::add('doorbirdv2', 'debug', 'ImageAppel pas d&apos;image trouvé : '. $https . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user=XXXXXXXX&http-password=XXXXXXXXXXX&index=1');
                 }
                 else
                 {
