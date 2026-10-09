@@ -232,7 +232,7 @@ public static function apirl() {
         $host = $eqLogic->getConfiguration('addr');
         if (doorbirdv2::isHttpsAvailable($host)) {
             $https = "https://";
-            log::add('doorbirdv2', 'info', "HTTPS est disponible");
+            log::add('doorbirdv2', 'info', "HTTPS est disponible");;
         } else {
             $https = "http://";
             log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
@@ -247,7 +247,7 @@ public static function apirl() {
             $api1 = explode(":", $api[0]);
             $api3 = substr($api1[3], 2, 61);
         }
-          log::add('doorbirdv2', 'debug', 'Camera SESSIONID : ' . $urlid . ' avec ' . $user . ':' . $pass);
+          log::add('doorbirdv2', 'debug', 'Camera SESSIONID : ' . $https . $addr . '/bha-api/getsession.cgi?http-user=XXXXXXX&http-password=XXXXXXXXXX');
           doorbirdv2::doorcam($api3,$addr,$https);  
     } 
   
@@ -267,7 +267,7 @@ public static function doorappel() {
         $host = $eqLogic->getConfiguration('addr');
         if (doorbirdv2::isHttpsAvailable($host)) {
             $https = "https://";
-            //log::add('doorbirdv2', 'info', "HTTPS est disponible");
+            //log::add('doorbirdv2', 'info', "HTTPS est disponible");;
         } else {
             $https = "http://";
             //log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
@@ -304,7 +304,7 @@ public static function doorappel() {
                 $form = '<img style="display: block; margin: auto; cursor: zoom-in; max-width: 88%; height: auto;" src='.$accesimg . '>';
                 $eqLogic->checkAndUpdateCmd('imageappel', $form);
                 $eqLogic->refreshWidget();
-                log::add('doorbirdv2', 'debug', 'doorappel : '. $urlLive);
+                log::add('doorbirdv2', 'debug', 'doorappel : '. $https . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user=XXXXXXXXXX&http-password=XXXXXXXXXX&index=1');
                 }
          }   
       
@@ -347,7 +347,7 @@ public static function doorcamov() {
                 curl_exec($ch);
                 fclose($fp);
                
-                log::add('doorbirdv2', 'debug', 'ImageMov api : '. $urlLive);
+                log::add('doorbirdv2', 'debug', 'ImageMov api : '. $https . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user=XXXXXXXXXXX&http-password=XXXXXXXXXXXXX&event=motionsensor&index=1');
                 $form = '<img style="display: flex; margin: auto; max-width: 88%; height: auto;" src='.$accesimg . '>';
                 $eqLogic->checkAndUpdateCmd('imagemov', $form);
                 $eqLogic->refreshWidget();
@@ -363,20 +363,11 @@ public function postRemove() {
         if ($this->getConfiguration('addr') == '') {
             exit;
         }
-        $host = doorbirdv2::getConfiguration('addr');
-        if (doorbirdv2::isHttpsAvailable($host)) {
-            $https = "https://";
-            //log::add('doorbirdv2', 'info', "HTTPS est disponible");
-        } else {
-            $https = "http://";
-            //log::add('doorbirdv2', 'info', "HTTPS non disponible, probablement HTTP seulement");
-        }
-      
         $auth = base64_encode(trim($this->getConfiguration('user')) . ':' . trim($this->getConfiguration('pass')));
-        $request_http = new com_http($https.trim($this->getConfiguration('addr')) . '/bha-api/' . $_uri);
+        $request_http = new com_http('https://' . trim($this->getConfiguration('addr')) . '/bha-api/' . $_uri);
         $request_http->setHeader(array("Authorization: Basic $auth"));
         $retour = json_decode($request_http->exec(30),true);
-        log::add('doorbirdv2','debug', 'retour relais ' .$https . trim($this->getConfiguration('addr')) . '/bha-api/' . $_uri);
+    
         return $retour;
       
     }
@@ -389,7 +380,6 @@ class doorbirdv2Cmd extends cmd {
             $eqLogic = $this->getEqLogic();
             $eqLogic->callDoor($this->getConfiguration('url'));
         }
-		log::add('doorbirdv2', 'debug', 'reponse relais '.print_r($eqLogic->callDoor($this->getConfiguration('url')),true));
         return true;
         
         
