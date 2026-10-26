@@ -247,7 +247,7 @@ public static function apirl() {
             $api1 = explode(":", $api[0]);
             $api3 = substr($api1[3], 2, 61);
         }
-          log::add('doorbirdv2', 'debug', 'Camera SESSIONID : ' . $urlid . ' avec ' . $user . ':' . $pass);
+          log::add('doorbirdv2', 'debug', 'Camera SESSIONID : ' . $https . $addr . '/bha-api/getsession.cgi?http-user=XXXXXXX&http-password=XXXXXXXXXX');
           doorbirdv2::doorcam($api3,$addr,$https);  
     } 
   
@@ -288,12 +288,12 @@ public static function doorappel() {
                     $form = '<img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src='.$accesimg . ' width="324" height="243">';
                     $eqLogic->checkAndUpdateCmd('imageappel', $form);
                     $eqLogic->refreshWidget();
-                    log::add('doorbirdv2', 'debug', 'ImageAppel pas d&apos;image trouvé : '. $urlLive );
+                    log::add('doorbirdv2', 'debug', 'ImageAppel pas d&apos;image trouvé : '. $https . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user=XXXXXXXX&http-password=XXXXXXXXXXX&index=1');
                 }
                 else
                 {
                 $img = __DIR__.'/../../data/Appel/appel1.png';
-                $accesimg = '/plugins/doorbirdv2/data/Appel/appel1.png';
+                $accesimg = '/plugins/doorbirdv2/data/Appel/appel1.png?t=' . time();
                 file_put_contents($img, file_get_contents($urlLive));
                 $ch = curl_init($urlLive);
                 $fp = fopen($img, 'wb');
@@ -304,7 +304,7 @@ public static function doorappel() {
                 $form = '<img style="display: block; margin: auto; cursor: zoom-in; max-width: 88%; height: auto;" src='.$accesimg . '>';
                 $eqLogic->checkAndUpdateCmd('imageappel', $form);
                 $eqLogic->refreshWidget();
-                log::add('doorbirdv2', 'debug', 'doorappel : '. $urlLive);
+                log::add('doorbirdv2', 'debug', 'doorappel : '. $https . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user=XXXXXXXXXX&http-password=XXXXXXXXXX&index=1');
                 }
          }   
       
@@ -338,7 +338,7 @@ public static function doorcamov() {
                 else
                 {
                 $img = __DIR__.'/../../data/Move/mov1.png';
-                $accesimg = '/plugins/doorbirdv2/data/Move/mov1.png';
+                $accesimg = '/plugins/doorbirdv2/data/Move/mov1.png?t=' . time();
                 file_put_contents($img, file_get_contents($urlLive));
                 $ch = curl_init($urlLive);
                 $fp = fopen($img, 'wb');
@@ -347,7 +347,7 @@ public static function doorcamov() {
                 curl_exec($ch);
                 fclose($fp);
                
-                log::add('doorbirdv2', 'debug', 'ImageMov api : '. $urlLive);
+                log::add('doorbirdv2', 'debug', 'ImageMov api : '. $https . trim($eqLogic->getConfiguration('addr')) . '/bha-api/history.cgi?http-user=XXXXXXXXXXX&http-password=XXXXXXXXXXXXX&event=motionsensor&index=1');
                 $form = '<img style="display: flex; margin: auto; max-width: 88%; height: auto;" src='.$accesimg . '>';
                 $eqLogic->checkAndUpdateCmd('imagemov', $form);
                 $eqLogic->refreshWidget();
