@@ -2,6 +2,6 @@
 	require all denied
 <IfModule>
 <IfModule !mod_authz_core.c>
-Order allow,deny
-Deny from all
+	Order allow,deny
+	Deny from all
 <IfModule>
