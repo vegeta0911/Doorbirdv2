@@ -338,7 +338,7 @@ public static function doorcamov() {
                 else
                 {
                 $img = __DIR__.'/../../data/Move/mov1.png';
-                $accesimg = '/plugins/doorbirdv2/data/Move/mov1.png?t=' . time();
+                $accesimg = '/plugins/doorbirdv2/core/php/image.php?type=Move&file=mov1.png&t=' . time();
                 file_put_contents($img, file_get_contents($urlLive));
                 $ch = curl_init($urlLive);
                 $fp = fopen($img, 'wb');
