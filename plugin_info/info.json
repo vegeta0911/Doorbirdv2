@@ -3,10 +3,10 @@
     "name" : "Doorbird V2",
     "licence" : "AGPL",
     "author" : "vegeta0911",
-    "require" : "4.4",
-    "pluginVersion": "2.1",
+    "require" : "4.6",
+    "pluginVersion": "2.6",
     "os" : {
-		"min" : 11
+		"min" : 12
     },
     "category" : "security",
     "hasOwnDeamon": false,
